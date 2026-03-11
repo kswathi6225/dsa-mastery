@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Master Guide — Complete Interview Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050508;
+  --surface: #0c0c12;
+  --card: #111118;
+  --border: #1e1e2e;
+  --accent: #7c3aed;
+  --accent-glow: rgba(124,58,237,0.3);
+  --green: #10b981;
+  --yellow: #f59e0b;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --pink: #ec4899;
+  --text: #e2e2f0;
+  --muted: #6b6b8a;
+  --code-bg: #080810;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Clash Display', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(124,58,237,0.12), transparent);
+  pointer-events:none; z-index:0;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--accent); border-radius:3px; }
+
+/* ===== HOME ===== */
+#home { position:relative; z-index:1; }
+
+.hero {
+  max-width:1300px; margin:0 auto;
+  padding: 70px 48px 40px;
+}
+.hero-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; letter-spacing:3px;
+  color:var(--accent); text-transform:uppercase;
+  margin-bottom:20px; display:block;
+  animation: fadeUp 0.5s ease;
+}
+.hero h1 {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight:700; line-height:1;
+  margin-bottom:20px;
+  animation: fadeUp 0.6s ease;
+}
+.hero h1 em {
+  font-style:normal;
+  background: linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub {
+  color:var(--muted); font-size:18px; max-width:620px;
+  line-height:1.7; margin-bottom:40px;
+  animation: fadeUp 0.7s ease;
+}
+.stats {
+  display:flex; gap:20px; flex-wrap:wrap;
+  margin-bottom:64px;
+  animation: fadeUp 0.8s ease;
+}
+.stat {
+  background:var(--card); border:1px solid var(--border);
+  padding:18px 28px; border-radius:8px;
+}
+.stat-n { font-size:32px; font-weight:700; color:var(--accent); font-family:'JetBrains Mono',monospace; }
+.stat-l { font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+
+/* ===== CATEGORY SECTIONS ===== */
+.cat-section {
+  max-width:1300px; margin:0 auto;
+  padding: 0 48px 64px;
+}
+.cat-header {
+  display:flex; align-items:center; gap:16px;
+  margin-bottom:28px;
+}
+.cat-num {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; letter-spacing:3px;
+  color:var(--muted); text-transform:uppercase;
+}
+.cat-line { flex:1; height:1px; background:var(--border); }
+.cat-title { font-size:26px; font-weight:700; margin-bottom:4px; }
+.cat-sub { color:var(--muted); font-size:14px; margin-bottom:20px; }
+
+/* ===== TOPIC GRID ===== */
+.topic-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap:14px;
+}
+.tcard {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:10px; padding:22px;
+  cursor:pointer; transition:all 0.2s ease;
+  position:relative; overflow:hidden;
+}
+.tcard::after {
+  content:'';
+  position:absolute; top:0; left:0;
+  width:100%; height:2px;
+  background: var(--accent);
+  transform: scaleX(0); transform-origin:left;
+  transition: transform 0.2s ease;
+}
+.tcard:hover { transform:translateY(-4px); border-color:var(--accent); box-shadow:0 16px 48px var(--accent-glow); }
+.tcard:hover::after { transform:scaleX(1); }
+.tcard.g::after,.tcard.g:hover { --accent:var(--green); border-color:var(--green); box-shadow:0 16px 48px rgba(16,185,129,0.2); }
+.tcard.y::after,.tcard.y:hover { --accent:var(--yellow); border-color:var(--yellow); box-shadow:0 16px 48px rgba(245,158,11,0.2); }
+.tcard.r::after,.tcard.r:hover { --accent:var(--red); border-color:var(--red); box-shadow:0 16px 48px rgba(239,68,68,0.2); }
+.tcard.b::after,.tcard.b:hover { --accent:var(--blue); border-color:var(--blue); box-shadow:0 16px 48px rgba(59,130,246,0.2); }
+.tcard.p::after,.tcard.p:hover { --accent:var(--pink); border-color:var(--pink); box-shadow:0 16px 48px rgba(236,72,153,0.2); }
+.tcard-icon { font-size:30px; margin-bottom:12px; }
+.tcard-name { font-size:16px; font-weight:600; margin-bottom:6px; }
+.tcard-desc { font-size:12px; color:var(--muted); line-height:1.5; }
+.tcard-diff {
+  position:absolute; top:14px; right:14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px; letter-spacing:1px; text-transform:uppercase;
+  padding:3px 8px; border-radius:3px;
+}
+.diff-easy { background:rgba(16,185,129,0.15); color:var(--green); }
+.diff-med  { background:rgba(245,158,11,0.15);  color:var(--yellow); }
+.diff-hard { background:rgba(239,68,68,0.15);   color:var(--red); }
+
+/* ===== DETAIL PAGE ===== */
+#detail { display:none; position:relative; z-index:1; min-height:100vh; }
+
+.detail-nav {
+  background:rgba(5,5,8,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:16px 48px;
+  display:flex; align-items:center; gap:16px;
+  position:sticky; top:0; z-index:100;
+}
+.back-btn {
+  background:none; border:1px solid var(--border);
+  color:var(--text); padding:8px 18px;
+  border-radius:6px; cursor:pointer;
+  font-family:'JetBrains Mono',monospace; font-size:12px;
+  transition:all 0.2s; display:flex; align-items:center; gap:8px;
+}
+.back-btn:hover { border-color:var(--accent); color:var(--accent); }
+.dnav-title { font-size:20px; font-weight:600; }
+
+.detail-body {
+  max-width:960px; margin:0 auto;
+  padding:56px 48px;
+}
+
+/* ===== CONTENT ===== */
+.block { margin-bottom:52px; animation:fadeUp 0.4s ease; }
+.block h2 {
+  font-size:26px; font-weight:700;
+  margin-bottom:16px;
+  display:flex; align-items:center; gap:12px;
+  padding-bottom:12px; border-bottom:1px solid var(--border);
+}
+.block h3 { font-size:18px; font-weight:600; color:#a78bfa; margin:24px 0 10px; }
+.block p { color:#a0a0c0; line-height:1.8; font-size:15px; margin-bottom:12px; font-weight:400; }
+.block ul, .block ol { padding-left:22px; }
+.block li { color:#a0a0c0; line-height:1.8; font-size:15px; margin-bottom:6px; }
+
+/* CODE */
+.cblock {
+  background:var(--code-bg); border:1px solid var(--border);
+  border-radius:10px; margin:18px 0; overflow:hidden;
+}
+.cblock-head {
+  background:rgba(255,255,255,0.03); border-bottom:1px solid var(--border);
+  padding:10px 18px; display:flex; justify-content:space-between; align-items:center;
+}
+.clang { font-family:'JetBrains Mono',monospace; font-size:11px; color:#7c3aed; letter-spacing:2px; text-transform:uppercase; }
+.cbtn {
+  background:none; border:1px solid var(--border); color:var(--muted);
+  padding:4px 12px; border-radius:4px; font-size:11px; cursor:pointer;
+  font-family:'JetBrains Mono',monospace; transition:all 0.2s;
+}
+.cbtn:hover { border-color:var(--accent); color:var(--accent); }
+pre {
+  padding:22px; overflow-x:auto;
+  font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.9;
+}
+.kw { color:#c084fc; }
+.fn { color:#60a5fa; }
+.str { color:#34d399; }
+.num { color:#fb923c; }
+.cm { color:#374151; font-style:italic; }
+.tp { color:#f472b6; }
+
+/* TABLES */
+.tbl { width:100%; border-collapse:collapse; margin:16px 0; font-size:14px; }
+.tbl th { background:rgba(124,58,237,0.1); color:#a78bfa; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:1px; text-align:left; padding:12px 16px; border-bottom:1px solid var(--border); }
+.tbl td { padding:11px 16px; border-bottom:1px solid rgba(30,30,46,0.6); color:#a0a0c0; }
+.tbl tr:hover td { background:rgba(255,255,255,0.02); }
+
+/* CALLOUTS */
+.note { border-left:3px solid var(--accent); background:rgba(124,58,237,0.07); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0; font-size:14px; color:#a0a0c0; }
+.note.g { border-color:var(--green); background:rgba(16,185,129,0.07); }
+.note.y { border-color:var(--yellow); background:rgba(245,158,11,0.07); }
+.note.r { border-color:var(--red); background:rgba(239,68,68,0.07); }
+.note strong { color:var(--accent); }
+.note.g strong { color:var(--green); }
+.note.y strong { color:var(--yellow); }
+.note.r strong { color:var(--red); }
+
+/* COMPLEXITY BOX */
+.cplx {
+  display:flex; gap:12px; flex-wrap:wrap; margin:16px 0;
+}
+.cplx-item {
+  background:var(--card); border:1px solid var(--border);
+  padding:12px 20px; border-radius:8px; text-align:center;
+}
+.cplx-label { font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+.cplx-val { font-family:'JetBrains Mono',monospace; font-size:16px; font-weight:700; color:var(--green); }
+.cplx-val.y { color:var(--yellow); }
+.cplx-val.r { color:var(--red); }
+
+/* QUIZ */
+.quiz {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:10px; padding:24px; margin:20px 0;
+}
+.quiz h4 {
+  font-family:'JetBrains Mono',monospace; font-size:12px;
+  color:var(--accent); letter-spacing:2px; margin-bottom:16px;
+}
+.quiz ol { padding-left:20px; }
+.quiz li { color:#a0a0c0; margin-bottom:10px; font-size:14px; line-height:1.6; }
+
+/* VISUAL TREE / ARRAY */
+.visual-box {
+  background:var(--code-bg); border:1px solid var(--border);
+  border-radius:10px; padding:24px; margin:16px 0;
+  font-family:'JetBrains Mono',monospace; font-size:13px;
+  color:#a0a0c0; line-height:2; overflow-x:auto; white-space:pre;
+}
+
+/* TAGS */
+.tag {
+  display:inline-block; font-family:'JetBrains Mono',monospace;
+  font-size:11px; padding:3px 10px; border-radius:4px; margin:3px;
+}
+.tag-p { background:rgba(124,58,237,0.15); color:#a78bfa; }
+.tag-g { background:rgba(16,185,129,0.15); color:var(--green); }
+.tag-y { background:rgba(245,158,11,0.15); color:var(--yellow); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* PROGRESS BAR */
+.progress-wrap { margin-bottom:64px; }
+.progress-title { font-size:14px; color:var(--muted); margin-bottom:12px; font-family:'JetBrains Mono',monospace; letter-spacing:1px; }
+.progress-bar { background:var(--border); border-radius:4px; height:4px; margin-bottom:6px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:4px; background:linear-gradient(90deg, var(--accent), var(--pink)); }
+
+@media(max-width:768px){
+  .hero { padding:40px 20px 30px; }
+  .cat-section { padding:0 20px 40px; }
+  .detail-nav { padding:14px 20px; }
+  .detail-body { padding:30px 20px; }
+  .topic-grid { grid-template-columns:1fr; }
+  .cplx { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== HOME ========== -->
+<div id="home">
+<div class="hero">
+  <span class="hero-tag">// DSA MASTER GUIDE — PLACEMENT EDITION</span>
+  <h1>Master<br><em>Data Structures<br>& Algorithms</em></h1>
+  <p class="hero-sub">From absolute basics to interview-level problems. Theory, code (Java), complexity analysis, patterns, and 100+ interview questions — all in one place.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">12</div><div class="stat-l">Topics</div></div>
+    <div class="stat"><div class="stat-n">100+</div><div class="stat-l">Code Examples</div></div>
+    <div class="stat"><div class="stat-n">80+</div><div class="stat-l">Interview Qs</div></div>
+    <div class="stat"><div class="stat-n">All</div><div class="stat-l">Complexity Charts</div></div>
+  </div>
+</div>
+
+<!-- SECTION 1: FOUNDATIONS -->
+<div class="cat-section">
+  <div class="cat-header">
+    <span class="cat-num">Chapter 01</span><div class="cat-line"></div>
+  </div>
+  <div class="cat-title">🧱 Foundations</div>
+  <div class="cat-sub">Big O Notation, Recursion — the backbone of everything</div>
+  <div class="topic-grid">
+    <div class="tcard" onclick="show('bigo')">
+      <span class="tcard-diff diff-easy">Beginner</span>
+      <div class="tcard-icon">📈</div>
+      <div class="tcard-name">Big O Notation</div>
+      <div class="tcard-desc">Time & space complexity, O(1) to O(n!), best/worst/average case, complexity chart</div>
+    </div>
+    <div class="tcard" onclick="show('recursion')">
+      <span class="tcard-diff diff-med">Medium</span>
+      <div class="tcard-icon">🔄</div>
+      <div class="tcard-name">Recursion</div>
+      <div class="tcard-desc">Base case, recursive case, call stack, tail recursion, memoization intro</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: LINEAR DS -->
+<div class="cat-section">
+  <div class="cat-header">
+    <span class="cat-num">Chapter 02</span><div class="cat-line"></div>
+  </div>
+  <div class="cat-title">📦 Linear Data Structures</div>
+  <div class="cat-sub">Arrays, Strings, Linked Lists, Stacks, Queues</div>
+  <div class="topic-grid">
+    <div class="tcard g" onclick="show('arrays')">
+      <span class="tcard-diff diff-easy">Beginner</span>
+      <div class="tcard-icon">🗂️</div>
+      <div class="tcard-name">Arrays</div>
+      <div class="tcard-desc">1D/2D arrays, traversal, rotation, sliding window, two pointer technique</div>
+    </div>
+    <div class="tcard g" onclick="show('strings')">
+      <span class="tcard-diff diff-easy">Beginner</span>
+      <div class="tcard-icon">🔤</div>
+      <div class="tcard-name">Strings</div>
+      <div class="tcard-desc">String methods, palindrome, anagram, substring, pattern matching</div>
+    </div>
+    <div class="tcard g" onclick="show('linkedlist')">
+      <span class="tcard-diff diff-med">Medium</span>
+      <div class="tcard-icon">🔗</div>
+      <div class="tcard-name">Linked List</div>
+      <div class="tcard-desc">Singly, doubly, circular LL, reversal, cycle detection, merge sorted lists</div>
+    </div>
+    <div class="tcard g" onclick="show('stack')">
+      <span class="tcard-diff diff-easy">Beginner</span>
+      <div class="tcard-icon">📚</div>
+      <div class="tcard-name">Stack</div>
+      <div class="tcard-desc">LIFO, push/pop, balanced parentheses, next greater element, monotonic stack</div>
+    </div>
+    <div class="tcard g" onclick="show('queue')">
+      <span class="tcard-diff diff-easy">Beginner</span>
+      <div class="tcard-icon">🚶</div>
+      <div class="tcard-name">Queue & Deque</div>
+      <div class="tcard-desc">FIFO, circular queue, priority queue, sliding window maximum</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: NON-LINEAR DS -->
+<div class="cat-section">
+  <div class="cat-header">
+    <span class="cat-num">Chapter 03</span><div class="cat-line"></div>
+  </div>
+  <div class="cat-title">🌳 Non-Linear Data Structures</div>
+  <div class="cat-sub">Trees, Heaps, Graphs, HashMaps — most interview-heavy section</div>
+  <div class="topic-grid">
+    <div class="tcard y" onclick="show('trees')">
+      <span class="tcard-diff diff-med">Medium</span>
+      <div class="tcard-icon">🌲</div>
+      <div class="tcard-name">Trees & BST</div>
+      <div class="tcard-desc">Binary tree, BST, DFS (inorder/preorder/postorder), BFS, height, diameter</div>
+    </div>
+    <div class="tcard y" onclick="show('heap')">
+      <span class="tcard-diff diff-med">Medium</span>
+      <div class="tcard-icon">⛰️</div>
+      <div class="tcard-name">Heap / Priority Queue</div>
+      <div class="tcard-desc">Min heap, max heap, heapify, Kth largest, top K elements</div>
+    </div>
+    <div class="tcard y" onclick="show('hashing')">
+      <span class="tcard-diff diff-easy">Beginner</span>
+      <div class="tcard-icon">🗃️</div>
+      <div class="tcard-name">Hashing & HashMap</div>
+      <div class="tcard-desc">HashMap, HashSet, collision, frequency count, two sum, subarrays</div>
+    </div>
+    <div class="tcard y" onclick="show('graphs')">
+      <span class="tcard-diff diff-hard">Hard</span>
+      <div class="tcard-icon">🕸️</div>
+      <div class="tcard-name">Graphs</div>
+      <div class="tcard-desc">BFS, DFS, adjacency list/matrix, cycle detection, shortest path, topological sort</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: ALGORITHMS -->
+<div class="cat-section">
+  <div class="cat-header">
+    <span class="cat-num">Chapter 04</span><div class="cat-line"></div>
+  </div>
+  <div class="cat-title">⚙️ Algorithms</div>
+  <div class="cat-sub">Sorting, Searching, Dynamic Programming, Greedy — the problem solving toolkit</div>
+  <div class="topic-grid">
+    <div class="tcard b" onclick="show('sorting')">
+      <span class="tcard-diff diff-med">Medium</span>
+      <div class="tcard-icon">🔢</div>
+      <div class="tcard-name">Sorting Algorithms</div>
+      <div class="tcard-desc">Bubble, Selection, Insertion, Merge, Quick, Heap sort with complexity</div>
+    </div>
+    <div class="tcard b" onclick="show('searching')">
+      <span class="tcard-diff diff-easy">Beginner</span>
+      <div class="tcard-icon">🔍</div>
+      <div class="tcard-name">Searching Algorithms</div>
+      <div class="tcard-desc">Linear search, Binary search, Search in rotated array, advanced variants</div>
+    </div>
+    <div class="tcard b" onclick="show('dp')">
+      <span class="tcard-diff diff-hard">Hard</span>
+      <div class="tcard-icon">🧩</div>
+      <div class="tcard-name">Dynamic Programming</div>
+      <div class="tcard-desc">Memoization, tabulation, Fibonacci, knapsack, LCS, LIS, coin change</div>
+    </div>
+    <div class="tcard b" onclick="show('greedy')">
+      <span class="tcard-diff diff-med">Medium</span>
+      <div class="tcard-icon">💰</div>
+      <div class="tcard-name">Greedy Algorithms</div>
+      <div class="tcard-desc">Activity selection, fractional knapsack, Huffman, interval scheduling</div>
+    </div>
+    <div class="tcard p" onclick="show('patterns')">
+      <span class="tcard-diff diff-med">Medium</span>
+      <div class="tcard-icon">🎯</div>
+      <div class="tcard-name">Problem Solving Patterns</div>
+      <div class="tcard-desc">Two pointer, sliding window, fast-slow pointer, divide & conquer, backtracking</div>
+    </div>
+    <div class="tcard p" onclick="show('interview100')">
+      <span class="tcard-diff diff-hard">Interview</span>
+      <div class="tcard-icon">🎤</div>
+      <div class="tcard-name">Top 80 Interview Questions</div>
+      <div class="tcard-desc">Most asked DSA problems in placements — TCS, Infosys, Amazon, Flipkart</div>
+    </div>
+  </div>
+</div>
+</div><!-- end home -->
+
+<!-- ========== DETAIL ========== -->
+<div id="detail">
+  <div class="detail-nav">
+    <button class="back-btn" onclick="goHome()">← Back</button>
+    <div class="dnav-title" id="dtitle"></div>
+  </div>
+  <div class="detail-body" id="dbody"></div>
+</div>
+
+<script>
+const T = {};
+
+// ============================================================
+// BIG O
+// ============================================================
+T.bigo = {title:"📈 Big O Notation — Time & Space Complexity", html:`
+<div class="block">
+<h2>What is Big O Notation?</h2>
+<p>Big O describes <strong>how the runtime or memory usage of an algorithm grows</strong> as the input size (n) grows. It's the most important concept in DSA interviews — every answer should mention complexity.</p>
+<div class="note"><strong>💡 Simple Definition:</strong> Big O = worst-case behaviour of an algorithm as input approaches infinity.</div>
+
+<h3>Why It Matters</h3>
+<p>An O(n²) algorithm on 1 million elements = 1 trillion operations = crashes. An O(n log n) algorithm = ~20 million operations = instant. The difference is enormous in real systems.</p>
+</div>
+
+<div class="block">
+<h2>Complexity Classes — Fastest to Slowest</h2>
+<table class="tbl">
+<tr><th>Notation</th><th>Name</th><th>Example</th><th>n=1000 ops</th></tr>
+<tr><td>O(1)</td><td>Constant</td><td>Array access by index</td><td>1</td></tr>
+<tr><td>O(log n)</td><td>Logarithmic</td><td>Binary search</td><td>~10</td></tr>
+<tr><td>O(n)</td><td>Linear</td><td>Linear search, single loop</td><td>1,000</td></tr>
+<tr><td>O(n log n)</td><td>Linearithmic</td><td>Merge sort, Heap sort</td><td>~10,000</td></tr>
+<tr><td>O(n²)</td><td>Quadratic</td><td>Bubble sort, nested loops</td><td>1,000,000</td></tr>
+<tr><td>O(n³)</td><td>Cubic</td><td>3-nested loops</td><td>1 billion</td></tr>
+<tr><td>O(2ⁿ)</td><td>Exponential</td><td>Recursive Fibonacci (naive)</td><td>HUGE</td></tr>
+<tr><td>O(n!)</td><td>Factorial</td><td>Travelling salesman brute force</td><td>ASTRONOMICAL</td></tr>
+</table>
+<div class="visual-box">Fast ←————————————————————→ Slow
+O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ) &lt; O(n!)</div>
+</div>
+
+<div class="block">
+<h2>Rules for Calculating Big O</h2>
+<h3>Rule 1 — Drop Constants</h3>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// O(2n) → simplified to O(n)</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; n; i++) doSomething();  <span class="cm">// O(n)</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; n; i++) doSomethingElse(); <span class="cm">// O(n)</span>
+<span class="cm">// Total: O(2n) = O(n)</span>
+</pre></div>
+
+<h3>Rule 2 — Drop Non-Dominant Terms</h3>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// O(n² + n) → simplified to O(n²)</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; n; i++)          <span class="cm">// O(n)</span>
+  <span class="kw">for</span> (<span class="tp">int</span> j = <span class="num">0</span>; j &lt; n; j++) { }   <span class="cm">// O(n²) dominates</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; n; i++) { }     <span class="cm">// O(n) — ignored</span>
+</pre></div>
+
+<h3>Rule 3 — Different Inputs = Different Variables</h3>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// Two different arrays — NOT O(n²), it's O(a + b)</span>
+<span class="kw">for</span> (<span class="tp">int</span> x : arrA) { }   <span class="cm">// O(a)</span>
+<span class="kw">for</span> (<span class="tp">int</span> x : arrB) { }   <span class="cm">// O(b)</span>
+<span class="cm">// Total = O(a + b)</span>
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Space Complexity</h2>
+<p>Space complexity measures the <strong>extra memory</strong> used by an algorithm (not counting input).</p>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Space Examples</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// O(1) space — only variables, no extra array</span>
+<span class="tp">int</span> sum = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="tp">int</span> x : arr) sum += x;
+
+<span class="cm">// O(n) space — creates a new array of size n</span>
+<span class="tp">int</span>[] copy = <span class="kw">new</span> <span class="tp">int</span>[n];
+
+<span class="cm">// O(n) space — recursion call stack depth n</span>
+<span class="kw">int</span> <span class="fn">factorial</span>(<span class="tp">int</span> n) {
+  <span class="kw">if</span> (n == <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span>;
+  <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>); <span class="cm">// n frames on call stack</span>
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Best / Worst / Average Case</h2>
+<table class="tbl">
+<tr><th>Case</th><th>Symbol</th><th>Meaning</th><th>Example (Linear Search)</th></tr>
+<tr><td>Best Case</td><td>Ω (Omega)</td><td>Minimum operations</td><td>Target is first element → O(1)</td></tr>
+<tr><td>Average Case</td><td>Θ (Theta)</td><td>Expected operations</td><td>Target is in middle → O(n/2) = O(n)</td></tr>
+<tr><td>Worst Case</td><td>O (Big O)</td><td>Maximum operations</td><td>Target is last or not found → O(n)</td></tr>
+</table>
+<div class="note"><strong>🎯 Interview Tip:</strong> When interviewers ask complexity, always state the worst case (Big O) unless they ask specifically for best/average.</div>
+</div>
+
+<div class="quiz">
+<h4>// INTERVIEW QUESTIONS ON BIG O</h4>
+<ol>
+<li>What is the time complexity of accessing an element in an array by index?</li>
+<li>What is the time complexity of a nested for loop (both 0 to n)?</li>
+<li>Binary search runs in O(?) time — why?</li>
+<li>What is the space complexity of a recursive function with n recursive calls?</li>
+<li>What is O(log n) intuitively? How many times can you halve n before reaching 1?</li>
+</ol>
+</div>
+`};
+
+// ============================================================
+// RECURSION
+// ============================================================
+T.recursion = {title:"🔄 Recursion — Deep Dive", html:`
+<div class="block">
+<h2>What is Recursion?</h2>
+<p>Recursion is when a <strong>function calls itself</strong> to solve a smaller version of the same problem. Every recursive solution has two parts:</p>
+<ul>
+<li><strong>Base Case</strong> — the stopping condition (prevents infinite loop)</li>
+<li><strong>Recursive Case</strong> — the function calls itself with a smaller input</li>
+</ul>
+<div class="note r"><strong>⚠️ Common Mistake:</strong> Forgetting the base case causes a StackOverflowError!</div>
+</div>
+
+<div class="block">
+<h2>Classic Examples</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Factorial</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">factorial</span>(<span class="tp">int</span> n) {
+  <span class="kw">if</span> (n == <span class="num">0</span> || n == <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span>;  <span class="cm">// base case</span>
+  <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>);      <span class="cm">// recursive case</span>
+}
+<span class="cm">// factorial(4) = 4 * factorial(3)
+//              = 4 * 3 * factorial(2)
+//              = 4 * 3 * 2 * factorial(1)
+//              = 4 * 3 * 2 * 1 = 24</span>
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Fibonacci</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// Naive — O(2ⁿ) time, very slow</span>
+<span class="kw">int</span> <span class="fn">fib</span>(<span class="tp">int</span> n) {
+  <span class="kw">if</span> (n &lt;= <span class="num">1</span>) <span class="kw">return</span> n;
+  <span class="kw">return</span> <span class="fn">fib</span>(n - <span class="num">1</span>) + <span class="fn">fib</span>(n - <span class="num">2</span>);
+}
+
+<span class="cm">// With Memoization — O(n) time</span>
+<span class="tp">int</span>[] memo = <span class="kw">new</span> <span class="tp">int</span>[<span class="num">100</span>];
+<span class="kw">int</span> <span class="fn">fibMemo</span>(<span class="tp">int</span> n) {
+  <span class="kw">if</span> (n &lt;= <span class="num">1</span>) <span class="kw">return</span> n;
+  <span class="kw">if</span> (memo[n] != <span class="num">0</span>) <span class="kw">return</span> memo[n];  <span class="cm">// return cached</span>
+  memo[n] = <span class="fn">fibMemo</span>(n-<span class="num">1</span>) + <span class="fn">fibMemo</span>(n-<span class="num">2</span>);
+  <span class="kw">return</span> memo[n];
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Power of a Number</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">power</span>(<span class="tp">int</span> base, <span class="tp">int</span> exp) {
+  <span class="kw">if</span> (exp == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;
+  <span class="kw">if</span> (exp % <span class="num">2</span> == <span class="num">0</span>) {
+    <span class="tp">int</span> half = <span class="fn">power</span>(base, exp / <span class="num">2</span>);
+    <span class="kw">return</span> half * half;              <span class="cm">// O(log n) trick!</span>
+  }
+  <span class="kw">return</span> base * <span class="fn">power</span>(base, exp - <span class="num">1</span>);
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Understanding the Call Stack</h2>
+<div class="visual-box">factorial(4) call stack:
+┌─────────────────┐  ← top of stack
+│ factorial(1)=1  │
+├─────────────────┤
+│ factorial(2)=2  │
+├─────────────────┤
+│ factorial(3)=6  │
+├─────────────────┤
+│ factorial(4)=24 │
+└─────────────────┘  ← bottom
+Each call waits for the call above to return.</div>
+</div>
+
+<div class="block">
+<h2>Recursion vs Iteration</h2>
+<table class="tbl">
+<tr><th>Aspect</th><th>Recursion</th><th>Iteration</th></tr>
+<tr><td>Readability</td><td>Often cleaner, elegant</td><td>More verbose</td></tr>
+<tr><td>Space</td><td>O(n) call stack</td><td>O(1) usually</td></tr>
+<tr><td>Speed</td><td>Function call overhead</td><td>Faster</td></tr>
+<tr><td>Risk</td><td>Stack overflow</td><td>Infinite loop</td></tr>
+<tr><td>Best for</td><td>Trees, graphs, backtracking</td><td>Simple loops</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h2>Backtracking (Recursion Pattern)</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Generate all subsets</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">void</span> <span class="fn">subsets</span>(<span class="tp">int</span>[] nums, <span class="tp">int</span> idx, List&lt;Integer&gt; current, List&lt;List&lt;Integer&gt;&gt; result) {
+  result.<span class="fn">add</span>(<span class="kw">new</span> ArrayList&lt;&gt;(current));  <span class="cm">// add current subset</span>
+  <span class="kw">for</span> (<span class="tp">int</span> i = idx; i &lt; nums.length; i++) {
+    current.<span class="fn">add</span>(nums[i]);               <span class="cm">// choose</span>
+    <span class="fn">subsets</span>(nums, i + <span class="num">1</span>, current, result); <span class="cm">// explore</span>
+    current.<span class="fn">remove</span>(current.size() - <span class="num">1</span>); <span class="cm">// unchoose (backtrack)</span>
+  }
+}
+</pre></div>
+</div>
+`};
+
+// ============================================================
+// ARRAYS
+// ============================================================
+T.arrays = {title:"🗂️ Arrays — Complete Guide", html:`
+<div class="block">
+<h2>What is an Array?</h2>
+<p>An array is a <strong>contiguous block of memory</strong> storing elements of the same type. Elements are accessed via index in O(1) time.</p>
+<div class="cplx">
+  <div class="cplx-item"><div class="cplx-label">Access</div><div class="cplx-val">O(1)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Search</div><div class="cplx-val y">O(n)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Insert (end)</div><div class="cplx-val">O(1)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Insert (mid)</div><div class="cplx-val y">O(n)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Delete</div><div class="cplx-val y">O(n)</div></div>
+</div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Array Basics</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// Declaration</span>
+<span class="tp">int</span>[] arr = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>};
+<span class="tp">int</span>[] arr2 = <span class="kw">new</span> <span class="tp">int</span>[<span class="num">5</span>];  <span class="cm">// default 0s</span>
+
+<span class="cm">// Access — O(1)</span>
+System.out.<span class="fn">println</span>(arr[<span class="num">2</span>]);  <span class="cm">// 30</span>
+
+<span class="cm">// Traverse</span>
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; arr.length; i++) System.out.<span class="fn">println</span>(arr[i]);
+<span class="kw">for</span> (<span class="tp">int</span> x : arr) System.out.<span class="fn">println</span>(x);  <span class="cm">// enhanced for</span>
+
+<span class="cm">// 2D Array</span>
+<span class="tp">int</span>[][] matrix = {{<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>},{<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>},{<span class="num">7</span>,<span class="num">8</span>,<span class="num">9</span>}};
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; matrix.length; i++)
+  <span class="kw">for</span> (<span class="tp">int</span> j = <span class="num">0</span>; j &lt; matrix[i].length; j++)
+    System.out.<span class="fn">print</span>(matrix[i][j] + <span class="str">" "</span>);
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Two Pointer Technique</h2>
+<p>Use two pointers (usually left and right) moving toward each other. Reduces O(n²) to O(n).</p>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Check Palindrome Array</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">boolean</span> <span class="fn">isPalindrome</span>(<span class="tp">int</span>[] arr) {
+  <span class="tp">int</span> left = <span class="num">0</span>, right = arr.length - <span class="num">1</span>;
+  <span class="kw">while</span> (left &lt; right) {
+    <span class="kw">if</span> (arr[left] != arr[right]) <span class="kw">return false</span>;
+    left++; right--;
+  }
+  <span class="kw">return true</span>;
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Two Sum (Sorted Array)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// Find two numbers that sum to target in sorted array</span>
+<span class="tp">int</span>[] <span class="fn">twoSum</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> target) {
+  <span class="tp">int</span> l = <span class="num">0</span>, r = arr.length - <span class="num">1</span>;
+  <span class="kw">while</span> (l &lt; r) {
+    <span class="tp">int</span> sum = arr[l] + arr[r];
+    <span class="kw">if</span> (sum == target) <span class="kw">return new</span> <span class="tp">int</span>[]{l, r};
+    <span class="kw">else if</span> (sum &lt; target) l++;
+    <span class="kw">else</span> r--;
+  }
+  <span class="kw">return new</span> <span class="tp">int</span>[]{-<span class="num">1</span>, -<span class="num">1</span>};
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Sliding Window Technique</h2>
+<p>Maintain a window of fixed or variable size that slides across the array. Great for subarray/substring problems.</p>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Max Sum Subarray of Size K</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">maxSumSubarray</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> k) {
+  <span class="tp">int</span> windowSum = <span class="num">0</span>, maxSum = <span class="num">0</span>;
+  <span class="cm">// Build first window</span>
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; k; i++) windowSum += arr[i];
+  maxSum = windowSum;
+  <span class="cm">// Slide window</span>
+  <span class="kw">for</span> (<span class="tp">int</span> i = k; i &lt; arr.length; i++) {
+    windowSum += arr[i] - arr[i - k];  <span class="cm">// add new, remove old</span>
+    maxSum = Math.<span class="fn">max</span>(maxSum, windowSum);
+  }
+  <span class="kw">return</span> maxSum;
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Longest Subarray with Sum ≤ K (Variable Window)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">longestSubarray</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> k) {
+  <span class="tp">int</span> left = <span class="num">0</span>, sum = <span class="num">0</span>, maxLen = <span class="num">0</span>;
+  <span class="kw">for</span> (<span class="tp">int</span> right = <span class="num">0</span>; right &lt; arr.length; right++) {
+    sum += arr[right];
+    <span class="kw">while</span> (sum &gt; k) sum -= arr[left++]; <span class="cm">// shrink window</span>
+    maxLen = Math.<span class="fn">max</span>(maxLen, right - left + <span class="num">1</span>);
+  }
+  <span class="kw">return</span> maxLen;
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Classic Array Interview Problems</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Kadane's Algorithm (Maximum Subarray Sum)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">maxSubarraySum</span>(<span class="tp">int</span>[] arr) {
+  <span class="tp">int</span> maxSoFar = arr[<span class="num">0</span>], maxEndingHere = arr[<span class="num">0</span>];
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">1</span>; i &lt; arr.length; i++) {
+    maxEndingHere = Math.<span class="fn">max</span>(arr[i], maxEndingHere + arr[i]);
+    maxSoFar = Math.<span class="fn">max</span>(maxSoFar, maxEndingHere);
+  }
+  <span class="kw">return</span> maxSoFar;
+}
+<span class="cm">// Time: O(n), Space: O(1) — classic interview answer!</span>
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Rotate Array by K positions</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">void</span> <span class="fn">rotate</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> k) {
+  k = k % arr.length;
+  <span class="fn">reverse</span>(arr, <span class="num">0</span>, arr.length - <span class="num">1</span>);
+  <span class="fn">reverse</span>(arr, <span class="num">0</span>, k - <span class="num">1</span>);
+  <span class="fn">reverse</span>(arr, k, arr.length - <span class="num">1</span>);
+}
+<span class="kw">void</span> <span class="fn">reverse</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> s, <span class="tp">int</span> e) {
+  <span class="kw">while</span> (s &lt; e) { <span class="tp">int</span> t = arr[s]; arr[s++] = arr[e]; arr[e--] = t; }
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Move all zeros to end</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">void</span> <span class="fn">moveZeroes</span>(<span class="tp">int</span>[] arr) {
+  <span class="tp">int</span> insertPos = <span class="num">0</span>;
+  <span class="kw">for</span> (<span class="tp">int</span> x : arr) <span class="kw">if</span> (x != <span class="num">0</span>) arr[insertPos++] = x;
+  <span class="kw">while</span> (insertPos &lt; arr.length) arr[insertPos++] = <span class="num">0</span>;
+}
+</pre></div>
+</div>
+
+<div class="quiz">
+<h4>// TOP ARRAY INTERVIEW QUESTIONS</h4>
+<ol>
+<li>Find the maximum subarray sum (Kadane's Algorithm)</li>
+<li>Find duplicate elements in an array</li>
+<li>Rotate an array by k positions</li>
+<li>Find missing number in array 1 to n</li>
+<li>Merge two sorted arrays without extra space</li>
+<li>Find the intersection of two arrays</li>
+<li>Rearrange positive and negative numbers alternately</li>
+<li>Find the element that appears once (others appear twice) — XOR trick</li>
+</ol>
+</div>
+`};
+
+// ============================================================
+// STRINGS
+// ============================================================
+T.strings = {title:"🔤 Strings — Complete Guide", html:`
+<div class="block">
+<h2>Strings in Java</h2>
+<p>In Java, Strings are <strong>immutable objects</strong> — once created they cannot be changed. Use <code>StringBuilder</code> for mutable string operations.</p>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — String Basics</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+String s = <span class="str">"hello"</span>;
+s.<span class="fn">length</span>()          <span class="cm">// 5</span>
+s.<span class="fn">charAt</span>(<span class="num">0</span>)         <span class="cm">// 'h'</span>
+s.<span class="fn">substring</span>(<span class="num">1</span>, <span class="num">3</span>)   <span class="cm">// "el" (start inclusive, end exclusive)</span>
+s.<span class="fn">indexOf</span>(<span class="str">'l'</span>)     <span class="cm">// 2</span>
+s.<span class="fn">contains</span>(<span class="str">"ell"</span>)  <span class="cm">// true</span>
+s.<span class="fn">toUpperCase</span>()     <span class="cm">// "HELLO"</span>
+s.<span class="fn">toLowerCase</span>()     <span class="cm">// "hello"</span>
+s.<span class="fn">trim</span>()            <span class="cm">// removes leading/trailing spaces</span>
+s.<span class="fn">replace</span>(<span class="str">'l'</span>, <span class="str">'r'</span>) <span class="cm">// "herro"</span>
+s.<span class="fn">split</span>(<span class="str">" "</span>)        <span class="cm">// splits by space → String[]</span>
+s.<span class="fn">toCharArray</span>()     <span class="cm">// converts to char[]</span>
+String.<span class="fn">valueOf</span>(<span class="num">42</span>)  <span class="cm">// "42" — int to string</span>
+Integer.<span class="fn">parseInt</span>(<span class="str">"42"</span>) <span class="cm">// 42 — string to int</span>
+</pre></div>
+
+<div class="note y"><strong>⚠️ Always use .equals() to compare strings, NOT ==</strong><br>== compares references. .equals() compares content.</div>
+</div>
+
+<div class="block">
+<h2>Classic String Problems</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Check Palindrome</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">boolean</span> <span class="fn">isPalindrome</span>(String s) {
+  <span class="tp">int</span> l = <span class="num">0</span>, r = s.<span class="fn">length</span>() - <span class="num">1</span>;
+  <span class="kw">while</span> (l &lt; r) {
+    <span class="kw">if</span> (s.<span class="fn">charAt</span>(l) != s.<span class="fn">charAt</span>(r)) <span class="kw">return false</span>;
+    l++; r--;
+  }
+  <span class="kw">return true</span>;
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Check Anagram</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">boolean</span> <span class="fn">isAnagram</span>(String a, String b) {
+  <span class="kw">if</span> (a.<span class="fn">length</span>() != b.<span class="fn">length</span>()) <span class="kw">return false</span>;
+  <span class="tp">int</span>[] count = <span class="kw">new</span> <span class="tp">int</span>[<span class="num">26</span>];
+  <span class="kw">for</span> (<span class="tp">char</span> c : a.<span class="fn">toCharArray</span>()) count[c - <span class="str">'a'</span>]++;
+  <span class="kw">for</span> (<span class="tp">char</span> c : b.<span class="fn">toCharArray</span>()) count[c - <span class="str">'a'</span>]--;
+  <span class="kw">for</span> (<span class="tp">int</span> x : count) <span class="kw">if</span> (x != <span class="num">0</span>) <span class="kw">return false</span>;
+  <span class="kw">return true</span>;
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Reverse Words in String</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+String <span class="fn">reverseWords</span>(String s) {
+  String[] words = s.<span class="fn">trim</span>().<span class="fn">split</span>(<span class="str">"\\s+"</span>);
+  StringBuilder sb = <span class="kw">new</span> <span class="fn">StringBuilder</span>();
+  <span class="kw">for</span> (<span class="tp">int</span> i = words.length - <span class="num">1</span>; i &gt;= <span class="num">0</span>; i--) {
+    sb.<span class="fn">append</span>(words[i]);
+    <span class="kw">if</span> (i &gt; <span class="num">0</span>) sb.<span class="fn">append</span>(<span class="str">" "</span>);
+  }
+  <span class="kw">return</span> sb.<span class="fn">toString</span>();
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Longest Substring Without Repeating Characters</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">lengthOfLongest</span>(String s) {
+  Map&lt;Character, Integer&gt; map = <span class="kw">new</span> HashMap&lt;&gt;();
+  <span class="tp">int</span> maxLen = <span class="num">0</span>, left = <span class="num">0</span>;
+  <span class="kw">for</span> (<span class="tp">int</span> right = <span class="num">0</span>; right &lt; s.<span class="fn">length</span>(); right++) {
+    <span class="tp">char</span> c = s.<span class="fn">charAt</span>(right);
+    <span class="kw">if</span> (map.<span class="fn">containsKey</span>(c)) left = Math.<span class="fn">max</span>(left, map.<span class="fn">get</span>(c) + <span class="num">1</span>);
+    map.<span class="fn">put</span>(c, right);
+    maxLen = Math.<span class="fn">max</span>(maxLen, right - left + <span class="num">1</span>);
+  }
+  <span class="kw">return</span> maxLen;
+}
+<span class="cm">// Time: O(n), Space: O(min(m,n)) — classic sliding window</span>
+</pre></div>
+</div>
+
+<div class="quiz">
+<h4>// STRING INTERVIEW QUESTIONS</h4>
+<ol>
+<li>Check if a string is palindrome</li>
+<li>Check if two strings are anagrams</li>
+<li>Find the first non-repeating character</li>
+<li>Count occurrences of each character</li>
+<li>Longest common prefix of an array of strings</li>
+<li>String compression (aabccc → a2b1c3)</li>
+<li>Check if string has balanced parentheses</li>
+<li>Longest palindromic substring</li>
+</ol>
+</div>
+`};
+
+// ============================================================
+// LINKED LIST
+// ============================================================
+T.linkedlist = {title:"🔗 Linked List — Complete Guide", html:`
+<div class="block">
+<h2>What is a Linked List?</h2>
+<p>A linked list is a <strong>chain of nodes</strong>, where each node contains data and a pointer to the next node. Unlike arrays, elements are NOT stored in contiguous memory.</p>
+<div class="visual-box">Singly Linked List:
+[10 | →] → [20 | →] → [30 | →] → [40 | null]
+ head                               tail
+
+Doubly Linked List:
+null ← [10 | ⇄] ⇄ [20 | ⇄] ⇄ [30 | ⇄] → null</div>
+
+<div class="cplx">
+  <div class="cplx-item"><div class="cplx-label">Access</div><div class="cplx-val y">O(n)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Search</div><div class="cplx-val y">O(n)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Insert (head)</div><div class="cplx-val">O(1)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Insert (tail)</div><div class="cplx-val">O(1)*</div></div>
+  <div class="cplx-item"><div class="cplx-label">Delete</div><div class="cplx-val">O(1)**</div></div>
+</div>
+</div>
+
+<div class="block">
+<h2>Node Class & Basic Operations</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Node & LinkedList Setup</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">class</span> <span class="tp">Node</span> {
+  <span class="tp">int</span> val;
+  <span class="tp">Node</span> next;
+  <span class="fn">Node</span>(<span class="tp">int</span> val) { <span class="kw">this</span>.val = val; <span class="kw">this</span>.next = <span class="kw">null</span>; }
+}
+
+<span class="kw">class</span> <span class="tp">LinkedList</span> {
+  <span class="tp">Node</span> head = <span class="kw">null</span>;
+
+  <span class="cm">// Insert at head — O(1)</span>
+  <span class="kw">void</span> <span class="fn">insertHead</span>(<span class="tp">int</span> val) {
+    <span class="tp">Node</span> newNode = <span class="kw">new</span> <span class="tp">Node</span>(val);
+    newNode.next = head;
+    head = newNode;
+  }
+
+  <span class="cm">// Insert at tail — O(n)</span>
+  <span class="kw">void</span> <span class="fn">insertTail</span>(<span class="tp">int</span> val) {
+    <span class="tp">Node</span> newNode = <span class="kw">new</span> <span class="tp">Node</span>(val);
+    <span class="kw">if</span> (head == <span class="kw">null</span>) { head = newNode; <span class="kw">return</span>; }
+    <span class="tp">Node</span> curr = head;
+    <span class="kw">while</span> (curr.next != <span class="kw">null</span>) curr = curr.next;
+    curr.next = newNode;
+  }
+
+  <span class="cm">// Delete by value — O(n)</span>
+  <span class="kw">void</span> <span class="fn">delete</span>(<span class="tp">int</span> val) {
+    <span class="kw">if</span> (head == <span class="kw">null</span>) <span class="kw">return</span>;
+    <span class="kw">if</span> (head.val == val) { head = head.next; <span class="kw">return</span>; }
+    <span class="tp">Node</span> curr = head;
+    <span class="kw">while</span> (curr.next != <span class="kw">null</span> &amp;&amp; curr.next.val != val)
+      curr = curr.next;
+    <span class="kw">if</span> (curr.next != <span class="kw">null</span>) curr.next = curr.next.next;
+  }
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Classic Linked List Problems</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Reverse a Linked List</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="tp">Node</span> <span class="fn">reverse</span>(<span class="tp">Node</span> head) {
+  <span class="tp">Node</span> prev = <span class="kw">null</span>, curr = head;
+  <span class="kw">while</span> (curr != <span class="kw">null</span>) {
+    <span class="tp">Node</span> next = curr.next;  <span class="cm">// save next</span>
+    curr.next = prev;        <span class="cm">// reverse pointer</span>
+    prev = curr;             <span class="cm">// move prev forward</span>
+    curr = next;             <span class="cm">// move curr forward</span>
+  }
+  <span class="kw">return</span> prev;  <span class="cm">// prev is new head</span>
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Detect Cycle (Floyd's Algorithm)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">boolean</span> <span class="fn">hasCycle</span>(<span class="tp">Node</span> head) {
+  <span class="tp">Node</span> slow = head, fast = head;
+  <span class="kw">while</span> (fast != <span class="kw">null</span> &amp;&amp; fast.next != <span class="kw">null</span>) {
+    slow = slow.next;       <span class="cm">// moves 1 step</span>
+    fast = fast.next.next;  <span class="cm">// moves 2 steps</span>
+    <span class="kw">if</span> (slow == fast) <span class="kw">return true</span>;  <span class="cm">// they meet = cycle!</span>
+  }
+  <span class="kw">return false</span>;
+}
+<span class="cm">// Fast-slow pointer (tortoise and hare algorithm)</span>
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Find Middle of Linked List</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="tp">Node</span> <span class="fn">findMiddle</span>(<span class="tp">Node</span> head) {
+  <span class="tp">Node</span> slow = head, fast = head;
+  <span class="kw">while</span> (fast != <span class="kw">null</span> &amp;&amp; fast.next != <span class="kw">null</span>) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  <span class="kw">return</span> slow;  <span class="cm">// slow is at middle when fast reaches end</span>
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Merge Two Sorted Linked Lists</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="tp">Node</span> <span class="fn">mergeSorted</span>(<span class="tp">Node</span> l1, <span class="tp">Node</span> l2) {
+  <span class="tp">Node</span> dummy = <span class="kw">new</span> <span class="tp">Node</span>(<span class="num">0</span>), curr = dummy;
+  <span class="kw">while</span> (l1 != <span class="kw">null</span> &amp;&amp; l2 != <span class="kw">null</span>) {
+    <span class="kw">if</span> (l1.val &lt; l2.val) { curr.next = l1; l1 = l1.next; }
+    <span class="kw">else</span>                  { curr.next = l2; l2 = l2.next; }
+    curr = curr.next;
+  }
+  curr.next = (l1 != <span class="kw">null</span>) ? l1 : l2;
+  <span class="kw">return</span> dummy.next;
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Array vs Linked List</h2>
+<table class="tbl">
+<tr><th>Feature</th><th>Array</th><th>Linked List</th></tr>
+<tr><td>Memory</td><td>Contiguous</td><td>Non-contiguous</td></tr>
+<tr><td>Access</td><td>O(1) by index</td><td>O(n) traversal</td></tr>
+<tr><td>Insert/Delete</td><td>O(n) shifting</td><td>O(1) if node known</td></tr>
+<tr><td>Cache friendly</td><td>Yes</td><td>No</td></tr>
+<tr><td>Size</td><td>Fixed (array) or dynamic</td><td>Always dynamic</td></tr>
+</table>
+</div>
+`};
+
+// ============================================================
+// STACK
+// ============================================================
+T.stack = {title:"📚 Stack — Complete Guide", html:`
+<div class="block">
+<h2>What is a Stack?</h2>
+<p>A Stack is a <strong>LIFO (Last In, First Out)</strong> data structure. Think of a stack of plates — you can only add or remove from the top.</p>
+<div class="visual-box">Push 10 → Push 20 → Push 30:
+        ┌────┐
+top →   │ 30 │  ← pop returns 30
+        ├────┤
+        │ 20 │
+        ├────┤
+        │ 10 │
+        └────┘</div>
+<div class="cplx">
+  <div class="cplx-item"><div class="cplx-label">Push</div><div class="cplx-val">O(1)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Pop</div><div class="cplx-val">O(1)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Peek/Top</div><div class="cplx-val">O(1)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Search</div><div class="cplx-val y">O(n)</div></div>
+</div>
+</div>
+
+<div class="block">
+<h2>Stack in Java</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Stack Usage</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// Using Java's built-in Stack</span>
+Stack&lt;Integer&gt; stack = <span class="kw">new</span> Stack&lt;&gt;();
+stack.<span class="fn">push</span>(<span class="num">10</span>);   <span class="cm">// add to top</span>
+stack.<span class="fn">push</span>(<span class="num">20</span>);
+stack.<span class="fn">pop</span>();     <span class="cm">// remove and return top → 20</span>
+stack.<span class="fn">peek</span>();    <span class="cm">// look at top without removing → 10</span>
+stack.<span class="fn">isEmpty</span>(); <span class="cm">// false</span>
+stack.<span class="fn">size</span>();    <span class="cm">// 1</span>
+
+<span class="cm">// Preferred: use Deque as stack (faster)</span>
+Deque&lt;Integer&gt; stk = <span class="kw">new</span> ArrayDeque&lt;&gt;();
+stk.<span class="fn">push</span>(<span class="num">10</span>);
+stk.<span class="fn">pop</span>();
+stk.<span class="fn">peek</span>();
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Classic Stack Problems</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Balanced Parentheses</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">boolean</span> <span class="fn">isBalanced</span>(String s) {
+  Deque&lt;Character&gt; stack = <span class="kw">new</span> ArrayDeque&lt;&gt;();
+  <span class="kw">for</span> (<span class="tp">char</span> c : s.<span class="fn">toCharArray</span>()) {
+    <span class="kw">if</span> (c == <span class="str">'('</span> || c == <span class="str">'['</span> || c == <span class="str">'{'</span>) stack.<span class="fn">push</span>(c);
+    <span class="kw">else</span> {
+      <span class="kw">if</span> (stack.<span class="fn">isEmpty</span>()) <span class="kw">return false</span>;
+      <span class="tp">char</span> top = stack.<span class="fn">pop</span>();
+      <span class="kw">if</span> (c == <span class="str">')'</span> &amp;&amp; top != <span class="str">'('</span>) <span class="kw">return false</span>;
+      <span class="kw">if</span> (c == <span class="str">']'</span> &amp;&amp; top != <span class="str">'['</span>) <span class="kw">return false</span>;
+      <span class="kw">if</span> (c == <span class="str">'}'</span> &amp;&amp; top != <span class="str">'{'</span>) <span class="kw">return false</span>;
+    }
+  }
+  <span class="kw">return</span> stack.<span class="fn">isEmpty</span>();
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Next Greater Element</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="tp">int</span>[] <span class="fn">nextGreater</span>(<span class="tp">int</span>[] arr) {
+  <span class="tp">int</span>[] result = <span class="kw">new</span> <span class="tp">int</span>[arr.length];
+  Arrays.<span class="fn">fill</span>(result, -<span class="num">1</span>);
+  Deque&lt;Integer&gt; stack = <span class="kw">new</span> ArrayDeque&lt;&gt;(); <span class="cm">// stores indices</span>
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; arr.length; i++) {
+    <span class="kw">while</span> (!stack.<span class="fn">isEmpty</span>() &amp;&amp; arr[stack.<span class="fn">peek</span>()] &lt; arr[i]) {
+      result[stack.<span class="fn">pop</span>()] = arr[i];
+    }
+    stack.<span class="fn">push</span>(i);
+  }
+  <span class="kw">return</span> result;
+}
+<span class="cm">// [2,1,5,3,4] → [5,5,-1,4,-1]</span>
+</pre></div>
+</div>
+`};
+
+// ============================================================
+// QUEUE
+// ============================================================
+T.queue = {title:"🚶 Queue & Deque — Complete Guide", html:`
+<div class="block">
+<h2>What is a Queue?</h2>
+<p>A Queue is a <strong>FIFO (First In, First Out)</strong> data structure. Like a line at a ticket counter — first person in, first to be served.</p>
+<div class="visual-box">Enqueue 10 → Enqueue 20 → Enqueue 30:
+front → [10] [20] [30] ← rear
+Dequeue → removes 10 (from front)</div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Queue Usage</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+Queue&lt;Integer&gt; q = <span class="kw">new</span> LinkedList&lt;&gt;();
+q.<span class="fn">offer</span>(<span class="num">10</span>);   <span class="cm">// enqueue (add to rear)</span>
+q.<span class="fn">offer</span>(<span class="num">20</span>);
+q.<span class="fn">poll</span>();    <span class="cm">// dequeue (remove from front) → 10</span>
+q.<span class="fn">peek</span>();    <span class="cm">// look at front without removing → 20</span>
+q.<span class="fn">isEmpty</span>(); <span class="cm">// false</span>
+
+<span class="cm">// Deque — double ended queue (both ends)</span>
+Deque&lt;Integer&gt; dq = <span class="kw">new</span> ArrayDeque&lt;&gt;();
+dq.<span class="fn">addFirst</span>(<span class="num">1</span>);  dq.<span class="fn">addLast</span>(<span class="num">2</span>);
+dq.<span class="fn">removeFirst</span>(); dq.<span class="fn">removeLast</span>();
+
+<span class="cm">// Priority Queue — min heap by default</span>
+PriorityQueue&lt;Integer&gt; pq = <span class="kw">new</span> PriorityQueue&lt;&gt;();
+pq.<span class="fn">offer</span>(<span class="num">30</span>); pq.<span class="fn">offer</span>(<span class="num">10</span>); pq.<span class="fn">offer</span>(<span class="num">20</span>);
+pq.<span class="fn">poll</span>();  <span class="cm">// returns 10 (smallest first)</span>
+
+<span class="cm">// Max heap</span>
+PriorityQueue&lt;Integer&gt; maxPQ = <span class="kw">new</span> PriorityQueue&lt;&gt;(Collections.reverseOrder());
+</pre></div>
+</div>
+
+<div class="block">
+<h2>BFS uses Queue — Classic Pattern</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Level Order Traversal of Tree</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">void</span> <span class="fn">levelOrder</span>(<span class="tp">TreeNode</span> root) {
+  <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return</span>;
+  Queue&lt;TreeNode&gt; q = <span class="kw">new</span> LinkedList&lt;&gt;();
+  q.<span class="fn">offer</span>(root);
+  <span class="kw">while</span> (!q.<span class="fn">isEmpty</span>()) {
+    <span class="tp">int</span> size = q.<span class="fn">size</span>();  <span class="cm">// nodes at current level</span>
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; size; i++) {
+      <span class="tp">TreeNode</span> node = q.<span class="fn">poll</span>();
+      System.out.<span class="fn">print</span>(node.val + <span class="str">" "</span>);
+      <span class="kw">if</span> (node.left  != <span class="kw">null</span>) q.<span class="fn">offer</span>(node.left);
+      <span class="kw">if</span> (node.right != <span class="kw">null</span>) q.<span class="fn">offer</span>(node.right);
+    }
+    System.out.<span class="fn">println</span>();  <span class="cm">// new line per level</span>
+  }
+}
+</pre></div>
+</div>
+`};
+
+// ============================================================
+// TREES
+// ============================================================
+T.trees = {title:"🌲 Trees & BST — Complete Guide", html:`
+<div class="block">
+<h2>Tree Terminology</h2>
+<div class="visual-box">          1          ← root (level 0)
+        /   \\
+       2     3       ← level 1
+      / \\     \\
+     4   5     6    ← level 2 (leaves: 4,5,6)
+
+Root: topmost node (1)
+Leaf: node with no children (4,5,6)
+Height: longest path from root to leaf = 2
+Depth of node: distance from root
+Parent of 4 = 2, Children of 2 = {4,5}</div>
+</div>
+
+<div class="block">
+<h2>Binary Tree Node & DFS Traversals</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — TreeNode & Traversals</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">class</span> <span class="tp">TreeNode</span> {
+  <span class="tp">int</span> val; <span class="tp">TreeNode</span> left, right;
+  <span class="fn">TreeNode</span>(<span class="tp">int</span> val) { <span class="kw">this</span>.val = val; }
+}
+
+<span class="cm">// Inorder: Left → Root → Right (gives sorted order for BST!)</span>
+<span class="kw">void</span> <span class="fn">inorder</span>(<span class="tp">TreeNode</span> root) {
+  <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return</span>;
+  <span class="fn">inorder</span>(root.left);
+  System.out.<span class="fn">print</span>(root.val + <span class="str">" "</span>);
+  <span class="fn">inorder</span>(root.right);
+}
+
+<span class="cm">// Preorder: Root → Left → Right (used to copy tree)</span>
+<span class="kw">void</span> <span class="fn">preorder</span>(<span class="tp">TreeNode</span> root) {
+  <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return</span>;
+  System.out.<span class="fn">print</span>(root.val + <span class="str">" "</span>);
+  <span class="fn">preorder</span>(root.left);
+  <span class="fn">preorder</span>(root.right);
+}
+
+<span class="cm">// Postorder: Left → Right → Root (used to delete tree)</span>
+<span class="kw">void</span> <span class="fn">postorder</span>(<span class="tp">TreeNode</span> root) {
+  <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return</span>;
+  <span class="fn">postorder</span>(root.left);
+  <span class="fn">postorder</span>(root.right);
+  System.out.<span class="fn">print</span>(root.val + <span class="str">" "</span>);
+}
+</pre></div>
+
+<table class="tbl">
+<tr><th>Traversal</th><th>Order</th><th>Use Case</th></tr>
+<tr><td>Inorder</td><td>Left → Root → Right</td><td>BST sorted output</td></tr>
+<tr><td>Preorder</td><td>Root → Left → Right</td><td>Copy/serialize tree</td></tr>
+<tr><td>Postorder</td><td>Left → Right → Root</td><td>Delete tree, eval expressions</td></tr>
+<tr><td>Level Order (BFS)</td><td>Level by level</td><td>Shortest path, level-wise processing</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h2>Height & Diameter of Tree</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Height of Binary Tree</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">height</span>(<span class="tp">TreeNode</span> root) {
+  <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return</span> <span class="num">0</span>;
+  <span class="kw">return</span> <span class="num">1</span> + Math.<span class="fn">max</span>(<span class="fn">height</span>(root.left), <span class="fn">height</span>(root.right));
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Diameter of Binary Tree</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="tp">int</span> maxDiam = <span class="num">0</span>;
+<span class="kw">int</span> <span class="fn">diameter</span>(<span class="tp">TreeNode</span> root) {
+  <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return</span> <span class="num">0</span>;
+  <span class="tp">int</span> left = <span class="fn">diameter</span>(root.left);
+  <span class="tp">int</span> right = <span class="fn">diameter</span>(root.right);
+  maxDiam = Math.<span class="fn">max</span>(maxDiam, left + right); <span class="cm">// path through this node</span>
+  <span class="kw">return</span> <span class="num">1</span> + Math.<span class="fn">max</span>(left, right);
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Binary Search Tree (BST)</h2>
+<p>In a BST: <strong>left subtree &lt; root &lt; right subtree</strong> for every node. This enables O(log n) average search.</p>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — BST Search, Insert, Validate</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// Search in BST — O(log n) avg</span>
+<span class="tp">TreeNode</span> <span class="fn">search</span>(<span class="tp">TreeNode</span> root, <span class="tp">int</span> val) {
+  <span class="kw">if</span> (root == <span class="kw">null</span> || root.val == val) <span class="kw">return</span> root;
+  <span class="kw">return</span> val &lt; root.val ? <span class="fn">search</span>(root.left, val) : <span class="fn">search</span>(root.right, val);
+}
+
+<span class="cm">// Insert in BST</span>
+<span class="tp">TreeNode</span> <span class="fn">insert</span>(<span class="tp">TreeNode</span> root, <span class="tp">int</span> val) {
+  <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return new</span> <span class="tp">TreeNode</span>(val);
+  <span class="kw">if</span> (val &lt; root.val) root.left  = <span class="fn">insert</span>(root.left,  val);
+  <span class="kw">else</span>               root.right = <span class="fn">insert</span>(root.right, val);
+  <span class="kw">return</span> root;
+}
+
+<span class="cm">// Validate BST</span>
+<span class="kw">boolean</span> <span class="fn">isValidBST</span>(<span class="tp">TreeNode</span> root, <span class="tp">long</span> min, <span class="tp">long</span> max) {
+  <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return true</span>;
+  <span class="kw">if</span> (root.val &lt;= min || root.val &gt;= max) <span class="kw">return false</span>;
+  <span class="kw">return</span> <span class="fn">isValidBST</span>(root.left, min, root.val) &amp;&amp;
+         <span class="fn">isValidBST</span>(root.right, root.val, max);
+}
+</pre></div>
+</div>
+
+<div class="quiz">
+<h4>// TREE INTERVIEW QUESTIONS</h4>
+<ol>
+<li>Find height/depth of a binary tree</li>
+<li>Check if a binary tree is balanced</li>
+<li>Find the lowest common ancestor (LCA) of two nodes</li>
+<li>Print all paths from root to leaf</li>
+<li>Check if two trees are identical</li>
+<li>Mirror/invert a binary tree</li>
+<li>Check if a binary tree is a BST</li>
+<li>Find Kth smallest element in BST</li>
+</ol>
+</div>
+`};
+
+// ============================================================
+// HEAP
+// ============================================================
+T.heap = {title:"⛰️ Heap & Priority Queue", html:`
+<div class="block">
+<h2>What is a Heap?</h2>
+<p>A Heap is a <strong>complete binary tree</strong> that satisfies the heap property:</p>
+<ul>
+<li><strong>Min Heap:</strong> Parent ≤ Children (root = smallest element)</li>
+<li><strong>Max Heap:</strong> Parent ≥ Children (root = largest element)</li>
+</ul>
+<div class="visual-box">Min Heap:          Max Heap:
+      1                  9
+    /   \\               /   \\
+   3     5             7     8
+  / \\   /             / \\
+ 7   8  10           2   5
+
+Root is always min   Root is always max</div>
+<div class="cplx">
+  <div class="cplx-item"><div class="cplx-label">Insert</div><div class="cplx-val y">O(log n)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Delete Min/Max</div><div class="cplx-val y">O(log n)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Get Min/Max</div><div class="cplx-val">O(1)</div></div>
+  <div class="cplx-item"><div class="cplx-label">Build Heap</div><div class="cplx-val y">O(n)</div></div>
+</div>
+</div>
+
+<div class="block">
+<h2>Heap in Java</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — PriorityQueue (Heap)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// Min Heap (default)</span>
+PriorityQueue&lt;Integer&gt; minHeap = <span class="kw">new</span> PriorityQueue&lt;&gt;();
+minHeap.<span class="fn">offer</span>(<span class="num">5</span>); minHeap.<span class="fn">offer</span>(<span class="num">2</span>); minHeap.<span class="fn">offer</span>(<span class="num">8</span>);
+minHeap.<span class="fn">poll</span>();  <span class="cm">// returns 2 (smallest)</span>
+minHeap.<span class="fn">peek</span>();  <span class="cm">// returns 3 (next smallest, no removal)</span>
+
+<span class="cm">// Max Heap</span>
+PriorityQueue&lt;Integer&gt; maxHeap = <span class="kw">new</span> PriorityQueue&lt;&gt;(Collections.<span class="fn">reverseOrder</span>());
+maxHeap.<span class="fn">offer</span>(<span class="num">5</span>); maxHeap.<span class="fn">offer</span>(<span class="num">2</span>); maxHeap.<span class="fn">offer</span>(<span class="num">8</span>);
+maxHeap.<span class="fn">poll</span>();  <span class="cm">// returns 8 (largest)</span>
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Classic Heap Problems</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Kth Largest Element</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">kthLargest</span>(<span class="tp">int</span>[] nums, <span class="tp">int</span> k) {
+  PriorityQueue&lt;Integer&gt; minHeap = <span class="kw">new</span> PriorityQueue&lt;&gt;();
+  <span class="kw">for</span> (<span class="tp">int</span> n : nums) {
+    minHeap.<span class="fn">offer</span>(n);
+    <span class="kw">if</span> (minHeap.<span class="fn">size</span>() &gt; k) minHeap.<span class="fn">poll</span>(); <span class="cm">// keep only k largest</span>
+  }
+  <span class="kw">return</span> minHeap.<span class="fn">peek</span>();  <span class="cm">// smallest of k largest = Kth largest</span>
+}
+<span class="cm">// Time: O(n log k), Space: O(k)</span>
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Top K Frequent Elements</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="tp">int</span>[] <span class="fn">topKFrequent</span>(<span class="tp">int</span>[] nums, <span class="tp">int</span> k) {
+  Map&lt;Integer, Integer&gt; freq = <span class="kw">new</span> HashMap&lt;&gt;();
+  <span class="kw">for</span> (<span class="tp">int</span> n : nums) freq.<span class="fn">merge</span>(n, <span class="num">1</span>, Integer::sum);
+  PriorityQueue&lt;int[]&gt; pq = <span class="kw">new</span> PriorityQueue&lt;&gt;((a,b) -&gt; a[<span class="num">1</span>] - b[<span class="num">1</span>]);
+  <span class="kw">for</span> (<span class="kw">var</span> e : freq.<span class="fn">entrySet</span>()) {
+    pq.<span class="fn">offer</span>(<span class="kw">new</span> <span class="tp">int</span>[]{e.<span class="fn">getKey</span>(), e.<span class="fn">getValue</span>()});
+    <span class="kw">if</span> (pq.<span class="fn">size</span>() &gt; k) pq.<span class="fn">poll</span>();
+  }
+  <span class="kw">return</span> pq.<span class="fn">stream</span>().<span class="fn">mapToInt</span>(a -&gt; a[<span class="num">0</span>]).<span class="fn">toArray</span>();
+}
+</pre></div>
+</div>
+`};
+
+// ============================================================
+// HASHING
+// ============================================================
+T.hashing = {title:"🗃️ Hashing & HashMap — Complete Guide", html:`
+<div class="block">
+<h2>What is Hashing?</h2>
+<p>Hashing maps a key to a memory location using a <strong>hash function</strong>. Enables O(1) average-case insert, delete, and lookup.</p>
+<div class="cplx">
+  <div class="cplx-item"><div class="cplx-label">Get</div><div class="cplx-val">O(1) avg</div></div>
+  <div class="cplx-item"><div class="cplx-label">Put</div><div class="cplx-val">O(1) avg</div></div>
+  <div class="cplx-item"><div class="cplx-label">Remove</div><div class="cplx-val">O(1) avg</div></div>
+  <div class="cplx-item"><div class="cplx-label">Worst case</div><div class="cplx-val r">O(n)</div></div>
+</div>
+</div>
+
+<div class="block">
+<h2>HashMap & HashSet in Java</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — HashMap Essentials</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+Map&lt;String, Integer&gt; map = <span class="kw">new</span> HashMap&lt;&gt;();
+map.<span class="fn">put</span>(<span class="str">"apple"</span>, <span class="num">3</span>);
+map.<span class="fn">get</span>(<span class="str">"apple"</span>);           <span class="cm">// 3</span>
+map.<span class="fn">getOrDefault</span>(<span class="str">"banana"</span>, <span class="num">0</span>); <span class="cm">// 0 (key not found)</span>
+map.<span class="fn">containsKey</span>(<span class="str">"apple"</span>);   <span class="cm">// true</span>
+map.<span class="fn">remove</span>(<span class="str">"apple"</span>);
+map.<span class="fn">size</span>();
+<span class="cm">// Frequency count pattern</span>
+<span class="kw">for</span> (<span class="tp">int</span> n : nums) map.<span class="fn">merge</span>(n, <span class="num">1</span>, Integer::sum);
+<span class="cm">// Iterate</span>
+<span class="kw">for</span> (Map.Entry&lt;String,Integer&gt; e : map.<span class="fn">entrySet</span>())
+  System.out.<span class="fn">println</span>(e.<span class="fn">getKey</span>() + <span class="str">" → "</span> + e.<span class="fn">getValue</span>());
+
+<span class="cm">// HashSet — unique values only</span>
+Set&lt;Integer&gt; set = <span class="kw">new</span> HashSet&lt;&gt;();
+set.<span class="fn">add</span>(<span class="num">1</span>); set.<span class="fn">add</span>(<span class="num">2</span>); set.<span class="fn">add</span>(<span class="num">1</span>);
+set.<span class="fn">size</span>();  <span class="cm">// 2 (no duplicates)</span>
+set.<span class="fn">contains</span>(<span class="num">1</span>); <span class="cm">// true</span>
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Classic Hashing Problems</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Two Sum (HashMap solution)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="tp">int</span>[] <span class="fn">twoSum</span>(<span class="tp">int</span>[] nums, <span class="tp">int</span> target) {
+  Map&lt;Integer, Integer&gt; map = <span class="kw">new</span> HashMap&lt;&gt;();
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; nums.length; i++) {
+    <span class="tp">int</span> complement = target - nums[i];
+    <span class="kw">if</span> (map.<span class="fn">containsKey</span>(complement)) <span class="kw">return new</span> <span class="tp">int</span>[]{map.<span class="fn">get</span>(complement), i};
+    map.<span class="fn">put</span>(nums[i], i);
+  }
+  <span class="kw">return new</span> <span class="tp">int</span>[]{};
+}
+<span class="cm">// Time: O(n), Space: O(n) — much better than O(n²) brute force</span>
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — First Non-Repeating Character</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="tp">char</span> <span class="fn">firstUnique</span>(String s) {
+  Map&lt;Character, Integer&gt; freq = <span class="kw">new</span> LinkedHashMap&lt;&gt;();
+  <span class="kw">for</span> (<span class="tp">char</span> c : s.<span class="fn">toCharArray</span>()) freq.<span class="fn">merge</span>(c, <span class="num">1</span>, Integer::sum);
+  <span class="kw">for</span> (<span class="kw">var</span> e : freq.<span class="fn">entrySet</span>()) <span class="kw">if</span> (e.<span class="fn">getValue</span>() == <span class="num">1</span>) <span class="kw">return</span> e.<span class="fn">getKey</span>();
+  <span class="kw">return</span> <span class="str">'\0'</span>;
+}
+</pre></div>
+</div>
+`};
+
+// ============================================================
+// GRAPHS
+// ============================================================
+T.graphs = {title:"🕸️ Graphs — Complete Guide", html:`
+<div class="block">
+<h2>Graph Terminology</h2>
+<div class="visual-box">Undirected Graph:       Directed Graph (Digraph):
+  1 — 2 — 3              1 → 2 → 3
+  |   |                  ↑       |
+  4 — 5                  4 ←—— 5 ←┘
+
+Vertex (Node): 1,2,3,4,5
+Edge: connection between nodes
+Degree: number of edges on a node
+Path: sequence of vertices connected by edges
+Cycle: path that starts and ends at same vertex</div>
+</div>
+
+<div class="block">
+<h2>Graph Representation</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Adjacency List (preferred)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// Adjacency List — better for sparse graphs</span>
+<span class="tp">int</span> V = <span class="num">5</span>;
+List&lt;List&lt;Integer&gt;&gt; adj = <span class="kw">new</span> ArrayList&lt;&gt;();
+<span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; V; i++) adj.<span class="fn">add</span>(<span class="kw">new</span> ArrayList&lt;&gt;());
+
+<span class="cm">// Add undirected edge between 0 and 1</span>
+adj.<span class="fn">get</span>(<span class="num">0</span>).<span class="fn">add</span>(<span class="num">1</span>); adj.<span class="fn">get</span>(<span class="num">1</span>).<span class="fn">add</span>(<span class="num">0</span>);
+
+<span class="cm">// Adjacency Matrix — better for dense graphs</span>
+<span class="tp">int</span>[][] matrix = <span class="kw">new</span> <span class="tp">int</span>[V][V];
+matrix[<span class="num">0</span>][<span class="num">1</span>] = <span class="num">1</span>; matrix[<span class="num">1</span>][<span class="num">0</span>] = <span class="num">1</span>; <span class="cm">// undirected</span>
+</pre></div>
+</div>
+
+<div class="block">
+<h2>BFS & DFS</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — BFS (Level-wise, uses Queue)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">void</span> <span class="fn">bfs</span>(<span class="tp">int</span> src, List&lt;List&lt;Integer&gt;&gt; adj, <span class="tp">int</span> V) {
+  <span class="kw">boolean</span>[] visited = <span class="kw">new boolean</span>[V];
+  Queue&lt;Integer&gt; q = <span class="kw">new</span> LinkedList&lt;&gt;();
+  visited[src] = <span class="kw">true</span>;
+  q.<span class="fn">offer</span>(src);
+  <span class="kw">while</span> (!q.<span class="fn">isEmpty</span>()) {
+    <span class="tp">int</span> node = q.<span class="fn">poll</span>();
+    System.out.<span class="fn">print</span>(node + <span class="str">" "</span>);
+    <span class="kw">for</span> (<span class="tp">int</span> neighbor : adj.<span class="fn">get</span>(node)) {
+      <span class="kw">if</span> (!visited[neighbor]) {
+        visited[neighbor] = <span class="kw">true</span>;
+        q.<span class="fn">offer</span>(neighbor);
+      }
+    }
+  }
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — DFS (Depth-first, uses Recursion/Stack)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">void</span> <span class="fn">dfs</span>(<span class="tp">int</span> node, List&lt;List&lt;Integer&gt;&gt; adj, <span class="kw">boolean</span>[] visited) {
+  visited[node] = <span class="kw">true</span>;
+  System.out.<span class="fn">print</span>(node + <span class="str">" "</span>);
+  <span class="kw">for</span> (<span class="tp">int</span> neighbor : adj.<span class="fn">get</span>(node)) {
+    <span class="kw">if</span> (!visited[neighbor]) <span class="fn">dfs</span>(neighbor, adj, visited);
+  }
+}
+</pre></div>
+
+<table class="tbl">
+<tr><th>Feature</th><th>BFS</th><th>DFS</th></tr>
+<tr><td>Data structure</td><td>Queue</td><td>Stack / Recursion</td></tr>
+<tr><td>Traversal</td><td>Level by level</td><td>Deep path first</td></tr>
+<tr><td>Shortest path</td><td>Yes (unweighted)</td><td>No</td></tr>
+<tr><td>Cycle detection</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Memory</td><td>More (stores level)</td><td>Less (usually)</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h2>Topological Sort (DAG)</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Topological Sort (Kahn's BFS)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+List&lt;Integer&gt; <span class="fn">topoSort</span>(<span class="tp">int</span> V, List&lt;List&lt;Integer&gt;&gt; adj) {
+  <span class="tp">int</span>[] inDegree = <span class="kw">new</span> <span class="tp">int</span>[V];
+  <span class="kw">for</span> (<span class="tp">int</span> u = <span class="num">0</span>; u &lt; V; u++)
+    <span class="kw">for</span> (<span class="tp">int</span> v : adj.<span class="fn">get</span>(u)) inDegree[v]++;
+  Queue&lt;Integer&gt; q = <span class="kw">new</span> LinkedList&lt;&gt;();
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; V; i++) <span class="kw">if</span> (inDegree[i] == <span class="num">0</span>) q.<span class="fn">offer</span>(i);
+  List&lt;Integer&gt; order = <span class="kw">new</span> ArrayList&lt;&gt;();
+  <span class="kw">while</span> (!q.<span class="fn">isEmpty</span>()) {
+    <span class="tp">int</span> node = q.<span class="fn">poll</span>();
+    order.<span class="fn">add</span>(node);
+    <span class="kw">for</span> (<span class="tp">int</span> v : adj.<span class="fn">get</span>(node))
+      <span class="kw">if</span> (--inDegree[v] == <span class="num">0</span>) q.<span class="fn">offer</span>(v);
+  }
+  <span class="kw">return</span> order;
+}
+</pre></div>
+</div>
+`};
+
+// ============================================================
+// SORTING
+// ============================================================
+T.sorting = {title:"🔢 Sorting Algorithms — Complete Guide", html:`
+<div class="block">
+<h2>Sorting Algorithm Comparison</h2>
+<table class="tbl">
+<tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable?</th></tr>
+<tr><td>Bubble Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td></tr>
+<tr><td>Selection Sort</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>No</td></tr>
+<tr><td>Insertion Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td></tr>
+<tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>Yes</td></tr>
+<tr><td>Quick Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td><td>No</td></tr>
+<tr><td>Heap Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td>No</td></tr>
+</table>
+<div class="note"><strong>💡 Interview Tip:</strong> Merge Sort = stable, guaranteed O(n log n). Quick Sort = faster in practice, O(n²) worst. Java's Arrays.sort() uses TimSort (hybrid of Merge+Insertion).</div>
+</div>
+
+<div class="block">
+<h2>Merge Sort — Divide & Conquer</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Merge Sort</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">void</span> <span class="fn">mergeSort</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> left, <span class="tp">int</span> right) {
+  <span class="kw">if</span> (left &gt;= right) <span class="kw">return</span>;
+  <span class="tp">int</span> mid = (left + right) / <span class="num">2</span>;
+  <span class="fn">mergeSort</span>(arr, left, mid);
+  <span class="fn">mergeSort</span>(arr, mid + <span class="num">1</span>, right);
+  <span class="fn">merge</span>(arr, left, mid, right);
+}
+
+<span class="kw">void</span> <span class="fn">merge</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> l, <span class="tp">int</span> m, <span class="tp">int</span> r) {
+  <span class="tp">int</span>[] left = Arrays.<span class="fn">copyOfRange</span>(arr, l, m + <span class="num">1</span>);
+  <span class="tp">int</span>[] right = Arrays.<span class="fn">copyOfRange</span>(arr, m + <span class="num">1</span>, r + <span class="num">1</span>);
+  <span class="tp">int</span> i = <span class="num">0</span>, j = <span class="num">0</span>, k = l;
+  <span class="kw">while</span> (i &lt; left.length &amp;&amp; j &lt; right.length)
+    arr[k++] = (left[i] &lt;= right[j]) ? left[i++] : right[j++];
+  <span class="kw">while</span> (i &lt; left.length)  arr[k++] = left[i++];
+  <span class="kw">while</span> (j &lt; right.length) arr[k++] = right[j++];
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Quick Sort — Partition</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Quick Sort</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">void</span> <span class="fn">quickSort</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> low, <span class="tp">int</span> high) {
+  <span class="kw">if</span> (low &lt; high) {
+    <span class="tp">int</span> pi = <span class="fn">partition</span>(arr, low, high);
+    <span class="fn">quickSort</span>(arr, low, pi - <span class="num">1</span>);
+    <span class="fn">quickSort</span>(arr, pi + <span class="num">1</span>, high);
+  }
+}
+<span class="kw">int</span> <span class="fn">partition</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> low, <span class="tp">int</span> high) {
+  <span class="tp">int</span> pivot = arr[high], i = low - <span class="num">1</span>;
+  <span class="kw">for</span> (<span class="tp">int</span> j = low; j &lt; high; j++) {
+    <span class="kw">if</span> (arr[j] &lt;= pivot) {
+      i++;
+      <span class="tp">int</span> t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+  }
+  <span class="tp">int</span> t = arr[i+<span class="num">1</span>]; arr[i+<span class="num">1</span>] = arr[high]; arr[high] = t;
+  <span class="kw">return</span> i + <span class="num">1</span>;
+}
+</pre></div>
+</div>
+`};
+
+// ============================================================
+// SEARCHING
+// ============================================================
+T.searching = {title:"🔍 Searching Algorithms", html:`
+<div class="block">
+<h2>Linear Search vs Binary Search</h2>
+<table class="tbl">
+<tr><th>Feature</th><th>Linear Search</th><th>Binary Search</th></tr>
+<tr><td>Prerequisite</td><td>None</td><td>Array must be SORTED</td></tr>
+<tr><td>Time</td><td>O(n)</td><td>O(log n)</td></tr>
+<tr><td>Space</td><td>O(1)</td><td>O(1) iterative</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h2>Binary Search — Multiple Variants</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Classic Binary Search</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">binarySearch</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> target) {
+  <span class="tp">int</span> left = <span class="num">0</span>, right = arr.length - <span class="num">1</span>;
+  <span class="kw">while</span> (left &lt;= right) {
+    <span class="tp">int</span> mid = left + (right - left) / <span class="num">2</span>; <span class="cm">// avoids overflow vs (l+r)/2</span>
+    <span class="kw">if</span>      (arr[mid] == target) <span class="kw">return</span> mid;
+    <span class="kw">else if</span> (arr[mid] &lt;  target) left  = mid + <span class="num">1</span>;
+    <span class="kw">else</span>                         right = mid - <span class="num">1</span>;
+  }
+  <span class="kw">return</span> -<span class="num">1</span>;
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Search in Rotated Sorted Array</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">searchRotated</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> target) {
+  <span class="tp">int</span> l = <span class="num">0</span>, r = arr.length - <span class="num">1</span>;
+  <span class="kw">while</span> (l &lt;= r) {
+    <span class="tp">int</span> mid = l + (r - l) / <span class="num">2</span>;
+    <span class="kw">if</span> (arr[mid] == target) <span class="kw">return</span> mid;
+    <span class="cm">// Left half is sorted</span>
+    <span class="kw">if</span> (arr[l] &lt;= arr[mid]) {
+      <span class="kw">if</span> (arr[l] &lt;= target &amp;&amp; target &lt; arr[mid]) r = mid - <span class="num">1</span>;
+      <span class="kw">else</span> l = mid + <span class="num">1</span>;
+    } <span class="kw">else</span> { <span class="cm">// Right half is sorted</span>
+      <span class="kw">if</span> (arr[mid] &lt; target &amp;&amp; target &lt;= arr[r]) l = mid + <span class="num">1</span>;
+      <span class="kw">else</span> r = mid - <span class="num">1</span>;
+    }
+  }
+  <span class="kw">return</span> -<span class="num">1</span>;
+}
+</pre></div>
+
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Find First & Last Position (Binary Search)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="tp">int</span>[] <span class="fn">searchRange</span>(<span class="tp">int</span>[] nums, <span class="tp">int</span> target) {
+  <span class="kw">return new</span> <span class="tp">int</span>[]{<span class="fn">findFirst</span>(nums, target), <span class="fn">findLast</span>(nums, target)};
+}
+<span class="kw">int</span> <span class="fn">findFirst</span>(<span class="tp">int</span>[] nums, <span class="tp">int</span> target) {
+  <span class="tp">int</span> l = <span class="num">0</span>, r = nums.length - <span class="num">1</span>, res = -<span class="num">1</span>;
+  <span class="kw">while</span> (l &lt;= r) {
+    <span class="tp">int</span> m = l + (r - l) / <span class="num">2</span>;
+    <span class="kw">if</span> (nums[m] == target) { res = m; r = m - <span class="num">1</span>; } <span class="cm">// keep going left</span>
+    <span class="kw">else if</span> (nums[m] &lt; target) l = m + <span class="num">1</span>;
+    <span class="kw">else</span> r = m - <span class="num">1</span>;
+  }
+  <span class="kw">return</span> res;
+}
+</pre></div>
+</div>
+`};
+
+// ============================================================
+// DYNAMIC PROGRAMMING
+// ============================================================
+T.dp = {title:"🧩 Dynamic Programming — Complete Guide", html:`
+<div class="block">
+<h2>What is Dynamic Programming?</h2>
+<p>DP solves complex problems by breaking them into <strong>overlapping subproblems</strong> and storing their results to avoid recomputation.</p>
+<div class="note"><strong>When to use DP?</strong> If a problem has: (1) Optimal substructure — optimal solution uses optimal subsolutions, and (2) Overlapping subproblems — same subproblems solved repeatedly.</div>
+
+<h3>Two Approaches</h3>
+<table class="tbl">
+<tr><th>Approach</th><th>Direction</th><th>Method</th><th>Space</th></tr>
+<tr><td>Memoization (Top-Down)</td><td>Recursive + cache</td><td>Start from original, cache results</td><td>O(n) + stack</td></tr>
+<tr><td>Tabulation (Bottom-Up)</td><td>Iterative</td><td>Build from base cases up</td><td>O(n) or less</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h2>Fibonacci — DP Explained Step by Step</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — All 3 Approaches</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="cm">// 1. Brute Force — O(2ⁿ)</span>
+<span class="kw">int</span> <span class="fn">fib1</span>(<span class="tp">int</span> n) { <span class="kw">return</span> n &lt;= <span class="num">1</span> ? n : <span class="fn">fib1</span>(n-<span class="num">1</span>) + <span class="fn">fib1</span>(n-<span class="num">2</span>); }
+
+<span class="cm">// 2. Memoization (Top-Down) — O(n)</span>
+Map&lt;Integer, Integer&gt; memo = <span class="kw">new</span> HashMap&lt;&gt;();
+<span class="kw">int</span> <span class="fn">fib2</span>(<span class="tp">int</span> n) {
+  <span class="kw">if</span> (n &lt;= <span class="num">1</span>) <span class="kw">return</span> n;
+  <span class="kw">if</span> (memo.<span class="fn">containsKey</span>(n)) <span class="kw">return</span> memo.<span class="fn">get</span>(n);
+  <span class="kw">int</span> result = <span class="fn">fib2</span>(n-<span class="num">1</span>) + <span class="fn">fib2</span>(n-<span class="num">2</span>);
+  memo.<span class="fn">put</span>(n, result);
+  <span class="kw">return</span> result;
+}
+
+<span class="cm">// 3. Tabulation (Bottom-Up) — O(n) time, O(n) space</span>
+<span class="kw">int</span> <span class="fn">fib3</span>(<span class="tp">int</span> n) {
+  <span class="kw">if</span> (n &lt;= <span class="num">1</span>) <span class="kw">return</span> n;
+  <span class="tp">int</span>[] dp = <span class="kw">new</span> <span class="tp">int</span>[n + <span class="num">1</span>];
+  dp[<span class="num">0</span>] = <span class="num">0</span>; dp[<span class="num">1</span>] = <span class="num">1</span>;
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">2</span>; i &lt;= n; i++) dp[i] = dp[i-<span class="num">1</span>] + dp[i-<span class="num">2</span>];
+  <span class="kw">return</span> dp[n];
+}
+
+<span class="cm">// 4. Space Optimized — O(n) time, O(1) space</span>
+<span class="kw">int</span> <span class="fn">fib4</span>(<span class="tp">int</span> n) {
+  <span class="kw">if</span> (n &lt;= <span class="num">1</span>) <span class="kw">return</span> n;
+  <span class="tp">int</span> a = <span class="num">0</span>, b = <span class="num">1</span>;
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">2</span>; i &lt;= n; i++) { <span class="tp">int</span> c = a + b; a = b; b = c; }
+  <span class="kw">return</span> b;
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>0/1 Knapsack Problem</h2>
+<p>Given weights and values of n items, find max value you can carry in a bag of capacity W.</p>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — 0/1 Knapsack</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">knapsack</span>(<span class="tp">int</span>[] wt, <span class="tp">int</span>[] val, <span class="tp">int</span> W, <span class="tp">int</span> n) {
+  <span class="tp">int</span>[][] dp = <span class="kw">new</span> <span class="tp">int</span>[n + <span class="num">1</span>][W + <span class="num">1</span>];
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">1</span>; i &lt;= n; i++) {
+    <span class="kw">for</span> (<span class="tp">int</span> w = <span class="num">0</span>; w &lt;= W; w++) {
+      <span class="cm">// Don't include item i</span>
+      dp[i][w] = dp[i-<span class="num">1</span>][w];
+      <span class="cm">// Include item i (if it fits)</span>
+      <span class="kw">if</span> (wt[i-<span class="num">1</span>] &lt;= w)
+        dp[i][w] = Math.<span class="fn">max</span>(dp[i][w], val[i-<span class="num">1</span>] + dp[i-<span class="num">1</span>][w - wt[i-<span class="num">1</span>]]);
+    }
+  }
+  <span class="kw">return</span> dp[n][W];
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Longest Common Subsequence (LCS)</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — LCS</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">lcs</span>(String a, String b) {
+  <span class="tp">int</span> m = a.<span class="fn">length</span>(), n = b.<span class="fn">length</span>();
+  <span class="tp">int</span>[][] dp = <span class="kw">new</span> <span class="tp">int</span>[m + <span class="num">1</span>][n + <span class="num">1</span>];
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">1</span>; i &lt;= m; i++)
+    <span class="kw">for</span> (<span class="tp">int</span> j = <span class="num">1</span>; j &lt;= n; j++) {
+      <span class="kw">if</span> (a.<span class="fn">charAt</span>(i-<span class="num">1</span>) == b.<span class="fn">charAt</span>(j-<span class="num">1</span>))
+        dp[i][j] = dp[i-<span class="num">1</span>][j-<span class="num">1</span>] + <span class="num">1</span>;
+      <span class="kw">else</span>
+        dp[i][j] = Math.<span class="fn">max</span>(dp[i-<span class="num">1</span>][j], dp[i][j-<span class="num">1</span>]);
+    }
+  <span class="kw">return</span> dp[m][n];
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Coin Change Problem</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Minimum Coins</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">coinChange</span>(<span class="tp">int</span>[] coins, <span class="tp">int</span> amount) {
+  <span class="tp">int</span>[] dp = <span class="kw">new</span> <span class="tp">int</span>[amount + <span class="num">1</span>];
+  Arrays.<span class="fn">fill</span>(dp, amount + <span class="num">1</span>);  <span class="cm">// fill with infinity</span>
+  dp[<span class="num">0</span>] = <span class="num">0</span>;
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">1</span>; i &lt;= amount; i++)
+    <span class="kw">for</span> (<span class="tp">int</span> coin : coins)
+      <span class="kw">if</span> (coin &lt;= i) dp[i] = Math.<span class="fn">min</span>(dp[i], dp[i - coin] + <span class="num">1</span>);
+  <span class="kw">return</span> dp[amount] &gt; amount ? -<span class="num">1</span> : dp[amount];
+}
+</pre></div>
+</div>
+
+<div class="quiz">
+<h4>// TOP DP INTERVIEW QUESTIONS</h4>
+<ol>
+<li>Climbing stairs (1 or 2 steps at a time) — how many ways?</li>
+<li>Maximum sum subarray (Kadane's)</li>
+<li>0/1 Knapsack problem</li>
+<li>Longest Common Subsequence</li>
+<li>Longest Increasing Subsequence (LIS)</li>
+<li>Coin Change (min coins)</li>
+<li>Edit Distance (Levenshtein)</li>
+<li>Matrix Chain Multiplication</li>
+</ol>
+</div>
+`};
+
+// ============================================================
+// GREEDY
+// ============================================================
+T.greedy = {title:"💰 Greedy Algorithms", html:`
+<div class="block">
+<h2>What is Greedy?</h2>
+<p>Greedy algorithms make the <strong>locally optimal choice at each step</strong>, hoping it leads to a globally optimal solution. Greedy is simpler and faster than DP but doesn't always work.</p>
+<div class="note y"><strong>⚠️ Greedy vs DP:</strong> Greedy makes irrevocable choices. DP considers all possibilities. Only use greedy when you can prove it gives an optimal result.</div>
+</div>
+
+<div class="block">
+<h2>Activity Selection Problem</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Max Activities (Non-overlapping intervals)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">activitySelection</span>(<span class="tp">int</span>[] start, <span class="tp">int</span>[] end) {
+  <span class="cm">// Sort by end time (greedy choice)</span>
+  Integer[] idx = IntStream.<span class="fn">range</span>(<span class="num">0</span>, start.length).<span class="fn">boxed</span>().<span class="fn">toArray</span>(Integer[]::new);
+  Arrays.<span class="fn">sort</span>(idx, (a, b) -&gt; end[a] - end[b]);
+  <span class="tp">int</span> count = <span class="num">1</span>, lastEnd = end[idx[<span class="num">0</span>]];
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">1</span>; i &lt; idx.length; i++) {
+    <span class="kw">if</span> (start[idx[i]] &gt;= lastEnd) {
+      count++;
+      lastEnd = end[idx[i]];
+    }
+  }
+  <span class="kw">return</span> count;
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Fractional Knapsack</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Fractional Knapsack</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">double</span> <span class="fn">fractionalKnapsack</span>(<span class="tp">int</span>[] wt, <span class="tp">int</span>[] val, <span class="tp">int</span> W) {
+  <span class="tp">int</span> n = wt.length;
+  Double[][] ratio = <span class="kw">new</span> Double[n][<span class="num">2</span>];
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; n; i++) ratio[i] = <span class="kw">new</span> Double[]{(double)val[i]/wt[i], (double)i};
+  Arrays.<span class="fn">sort</span>(ratio, (a, b) -&gt; Double.<span class="fn">compare</span>(b[<span class="num">0</span>], a[<span class="num">0</span>]));  <span class="cm">// desc by value/weight</span>
+  <span class="kw">double</span> totalValue = <span class="num">0</span>;
+  <span class="tp">int</span> remaining = W;
+  <span class="kw">for</span> (Double[] item : ratio) {
+    <span class="tp">int</span> i = item[<span class="num">1</span>].<span class="fn">intValue</span>();
+    <span class="kw">if</span> (wt[i] &lt;= remaining) { totalValue += val[i]; remaining -= wt[i]; }
+    <span class="kw">else</span> { totalValue += item[<span class="num">0</span>] * remaining; <span class="kw">break</span>; }
+  }
+  <span class="kw">return</span> totalValue;
+}
+</pre></div>
+<div class="note"><strong>💡 Key Difference:</strong> 0/1 Knapsack = DP (can't break items). Fractional Knapsack = Greedy (can take fractions).</div>
+</div>
+`};
+
+// ============================================================
+// PATTERNS
+// ============================================================
+T.patterns = {title:"🎯 Problem Solving Patterns", html:`
+<div class="block">
+<h2>Pattern 1: Two Pointers</h2>
+<p>Use when: sorted array, finding pairs, palindrome checks. Reduces O(n²) to O(n).</p>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — 3Sum Problem</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+List&lt;List&lt;Integer&gt;&gt; <span class="fn">threeSum</span>(<span class="tp">int</span>[] nums) {
+  Arrays.<span class="fn">sort</span>(nums);
+  List&lt;List&lt;Integer&gt;&gt; result = <span class="kw">new</span> ArrayList&lt;&gt;();
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i &lt; nums.length - <span class="num">2</span>; i++) {
+    <span class="kw">if</span> (i &gt; <span class="num">0</span> &amp;&amp; nums[i] == nums[i-<span class="num">1</span>]) <span class="kw">continue</span>; <span class="cm">// skip duplicates</span>
+    <span class="tp">int</span> l = i + <span class="num">1</span>, r = nums.length - <span class="num">1</span>;
+    <span class="kw">while</span> (l &lt; r) {
+      <span class="tp">int</span> sum = nums[i] + nums[l] + nums[r];
+      <span class="kw">if</span>      (sum == <span class="num">0</span>) { result.<span class="fn">add</span>(Arrays.<span class="fn">asList</span>(nums[i],nums[l++],nums[r--])); }
+      <span class="kw">else if</span> (sum &lt;  <span class="num">0</span>) l++;
+      <span class="kw">else</span>               r--;
+    }
+  }
+  <span class="kw">return</span> result;
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Pattern 2: Fast & Slow Pointer</h2>
+<p>Use when: linked list cycle, finding middle, detecting duplicates.</p>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Find Duplicate Number (Floyd's)</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+<span class="kw">int</span> <span class="fn">findDuplicate</span>(<span class="tp">int</span>[] nums) {
+  <span class="tp">int</span> slow = nums[<span class="num">0</span>], fast = nums[<span class="num">0</span>];
+  <span class="kw">do</span> { slow = nums[slow]; fast = nums[nums[fast]]; }
+  <span class="kw">while</span> (slow != fast);
+  slow = nums[<span class="num">0</span>];
+  <span class="kw">while</span> (slow != fast) { slow = nums[slow]; fast = nums[fast]; }
+  <span class="kw">return</span> slow;
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Pattern 3: Sliding Window</h2>
+<div class="cblock"><div class="cblock-head"><span class="clang">Java — Minimum Window Substring</span><button class="cbtn" onclick="cp(this)">copy</button></div><pre>
+String <span class="fn">minWindow</span>(String s, String t) {
+  Map&lt;Character, Integer&gt; need = <span class="kw">new</span> HashMap&lt;&gt;(), window = <span class="kw">new</span> HashMap&lt;&gt;();
+  <span class="kw">for</span> (<span class="tp">char</span> c : t.<span class="fn">toCharArray</span>()) need.<span class="fn">merge</span>(c, <span class="num">1</span>, Integer::sum);
+  <span class="tp">int</span> l = <span class="num">0</span>, valid = <span class="num">0</span>, start = <span class="num">0</span>, minLen = Integer.MAX_VALUE;
+  <span class="kw">for</span> (<span class="tp">int</span> r = <span class="num">0</span>; r &lt; s.<span class="fn">length</span>(); r++) {
+    <span class="tp">char</span> c = s.<span class="fn">charAt</span>(r);
+    window.<span class="fn">merge</span>(c, <span class="num">1</span>, Integer::sum);
+    <span class="kw">if</span> (need.<span class="fn">containsKey</span>(c) &amp;&amp; window.<span class="fn">get</span>(c).<span class="fn">equals</span>(need.<span class="fn">get</span>(c))) valid++;
+    <span class="kw">while</span> (valid == need.<span class="fn">size</span>()) {
+      <span class="kw">if</span> (r - l + <span class="num">1</span> &lt; minLen) { minLen = r - l + <span class="num">1</span>; start = l; }
+      <span class="tp">char</span> lc = s.<span class="fn">charAt</span>(l++);
+      <span class="kw">if</span> (need.<span class="fn">containsKey</span>(lc) &amp;&amp; window.<span class="fn">get</span>(lc).<span class="fn">equals</span>(need.<span class="fn">get</span>(lc))) valid--;
+      window.<span class="fn">merge</span>(lc, -<span class="num">1</span>, Integer::sum);
+    }
+  }
+  <span class="kw">return</span> minLen == Integer.MAX_VALUE ? <span class="str">""</span> : s.<span class="fn">substring</span>(start, start + minLen);
+}
+</pre></div>
+</div>
+
+<div class="block">
+<h2>Pattern 4: Divide & Conquer</h2>
+<p>Split problem into sub-problems, solve recursively, combine results. Used in Merge Sort, Quick Sort, Binary Search.</p>
+<h3>Pattern Cheatsheet</h3>
+<table class="tbl">
+<tr><th>Pattern</th><th>When to Use</th><th>Example Problems</th></tr>
+<tr><td>Two Pointers</td><td>Sorted array, pair finding</td><td>Two Sum, 3Sum, Palindrome</td></tr>
+<tr><td>Sliding Window</td><td>Subarray/substring problems</td><td>Max sum k-window, Longest unique substring</td></tr>
+<tr><td>Fast/Slow Pointer</td><td>Linked list, cycle detection</td><td>Middle node, cycle, duplicate</td></tr>
+<tr><td>Binary Search</td><td>Sorted or monotonic condition</td><td>Search in rotated array, Kth element</td></tr>
+<tr><td>BFS/Level Order</td><td>Shortest path, level-wise</td><td>Graph BFS, tree levels, grid problems</td></tr>
+<tr><td>DFS/Backtracking</td><td>All possibilities, combinations</td><td>Subsets, permutations, N-Queens</td></tr>
+<tr><td>Dynamic Programming</td><td>Overlapping subproblems</td><td>Knapsack, LCS, Coin change</td></tr>
+<tr><td>Greedy</td><td>Local optimal = global optimal</td><td>Activity selection, Interval scheduling</td></tr>
+<tr><td>Monotonic Stack</td><td>Next greater/smaller element</td><td>Largest rectangle histogram</td></tr>
+<tr><td>Union Find</td><td>Connected components, groups</td><td>Number of islands, Redundant connection</td></tr>
+</table>
+</div>
+`};
+
+// ============================================================
+// INTERVIEW 100
+// ============================================================
+T.interview100 = {title:"🎤 Top 80 DSA Interview Questions", html:`
+<div class="block">
+<h2>🔴 Arrays & Strings (Most Frequent)</h2>
+<div class="quiz">
+<h4>// ASKED IN 90%+ INTERVIEWS</h4>
+<ol>
+<li>Find the maximum subarray sum (Kadane's Algorithm)</li>
+<li>Two Sum — find indices of two numbers that add to target</li>
+<li>Find missing number in array 1 to n</li>
+<li>Move all zeros to end (maintain relative order)</li>
+<li>Rotate an array by k positions</li>
+<li>Find the duplicate element in array 1 to n</li>
+<li>Merge two sorted arrays without extra space</li>
+<li>Sort an array of 0s, 1s, and 2s (Dutch National Flag)</li>
+<li>Find the longest subarray with sum equal to k</li>
+<li>Check if a string is palindrome / anagram</li>
+<li>Longest substring without repeating characters</li>
+<li>Count occurrences of each character in a string</li>
+<li>Reverse words in a string</li>
+<li>Find the first non-repeating character</li>
+</ol>
+</div>
+</div>
+
+<div class="block">
+<h2>🟡 Linked Lists</h2>
+<div class="quiz">
+<h4>// COMMONLY ASKED</h4>
+<ol>
+<li>Reverse a linked list (iterative AND recursive)</li>
+<li>Detect a cycle in linked list (Floyd's Algorithm)</li>
+<li>Find the starting point of the cycle</li>
+<li>Find the middle element of a linked list</li>
+<li>Merge two sorted linked lists</li>
+<li>Remove Nth node from end of list</li>
+<li>Check if linked list is a palindrome</li>
+<li>Intersection point of two linked lists</li>
+</ol>
+</div>
+</div>
+
+<div class="block">
+<h2>🟢 Stacks & Queues</h2>
+<div class="quiz">
+<h4>// FREQUENTLY ASKED</h4>
+<ol>
+<li>Check balanced parentheses using stack</li>
+<li>Implement a queue using two stacks</li>
+<li>Implement a stack using two queues</li>
+<li>Next Greater Element (monotonic stack)</li>
+<li>Largest rectangle in histogram</li>
+<li>Implement Min Stack (O(1) getMin)</li>
+<li>Sliding window maximum using Deque</li>
+</ol>
+</div>
+</div>
+
+<div class="block">
+<h2>🌲 Trees</h2>
+<div class="quiz">
+<h4>// HEAVILY TESTED IN PRODUCT COMPANIES</h4>
+<ol>
+<li>All DFS traversals (inorder, preorder, postorder) — iterative too</li>
+<li>Level order traversal (BFS)</li>
+<li>Find height of binary tree</li>
+<li>Check if binary tree is balanced</li>
+<li>Lowest Common Ancestor of two nodes</li>
+<li>Print all root-to-leaf paths</li>
+<li>Mirror / Invert a binary tree</li>
+<li>Check if two trees are identical</li>
+<li>Validate a Binary Search Tree</li>
+<li>Kth smallest element in BST</li>
+<li>Diameter of binary tree</li>
+<li>Max path sum in binary tree</li>
+</ol>
+</div>
+</div>
+
+<div class="block">
+<h2>🕸️ Graphs</h2>
+<div class="quiz">
+<h4>// ASKED IN SENIOR ROUNDS</h4>
+<ol>
+<li>BFS and DFS traversal</li>
+<li>Detect cycle in undirected graph (BFS/DFS)</li>
+<li>Detect cycle in directed graph</li>
+<li>Topological sort (BFS Kahn's / DFS)</li>
+<li>Number of islands (grid DFS/BFS)</li>
+<li>Shortest path in unweighted graph (BFS)</li>
+<li>Check if graph is bipartite</li>
+</ol>
+</div>
+</div>
+
+<div class="block">
+<h2>🧩 Dynamic Programming</h2>
+<div class="quiz">
+<h4>// HARD BUT HIGH IMPACT</h4>
+<ol>
+<li>Climbing stairs (n steps, 1 or 2 at a time)</li>
+<li>Fibonacci with memoization / tabulation</li>
+<li>0/1 Knapsack problem</li>
+<li>Longest Common Subsequence</li>
+<li>Longest Increasing Subsequence</li>
+<li>Coin change (minimum coins)</li>
+<li>Subset sum problem</li>
+<li>Edit distance between two strings</li>
+<li>Maximum product subarray</li>
+<li>Unique paths in a grid</li>
+</ol>
+</div>
+</div>
+
+<div class="block">
+<h2>✅ Quick Complexity Reference</h2>
+<table class="tbl">
+<tr><th>Operation</th><th>Best Data Structure</th><th>Time</th></tr>
+<tr><td>Random access</td><td>Array</td><td>O(1)</td></tr>
+<tr><td>Insert at beginning</td><td>LinkedList</td><td>O(1)</td></tr>
+<tr><td>LIFO operations</td><td>Stack</td><td>O(1)</td></tr>
+<tr><td>FIFO operations</td><td>Queue</td><td>O(1)</td></tr>
+<tr><td>Key-value lookup</td><td>HashMap</td><td>O(1) avg</td></tr>
+<tr><td>Sorted insert/delete</td><td>BST / TreeMap</td><td>O(log n)</td></tr>
+<tr><td>Min/Max extraction</td><td>Heap</td><td>O(log n)</td></tr>
+<tr><td>Search sorted array</td><td>Binary Search</td><td>O(log n)</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h2>🎯 Interview Strategy Tips</h2>
+<div class="note g">
+<strong>✅ ALWAYS follow this approach in interviews:</strong><br><br>
+1. <strong>Clarify</strong> — Ask about edge cases, input size, constraints<br>
+2. <strong>Brute Force first</strong> — Give O(n²) solution, explain it clearly<br>
+3. <strong>Optimize</strong> — Identify bottleneck, suggest better approach<br>
+4. <strong>Code</strong> — Write clean, readable code with variable names<br>
+5. <strong>Test</strong> — Walk through with examples, check edge cases<br>
+6. <strong>Complexity</strong> — Always state time AND space complexity
+</div>
+<div class="note y">
+<strong>⚠️ Common edge cases to always check:</strong><br>
+Empty array/string, single element, all same elements, negative numbers, sorted input (best/worst case), very large input
+</div>
+</div>
+`};
+
+// ============================================================
+// NAV FUNCTIONS
+// ============================================================
+function show(id) {
+  const t = T[id];
+  if (!t) return;
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('detail').style.display = 'block';
+  document.getElementById('dtitle').textContent = t.title;
+  document.getElementById('dbody').innerHTML = t.html;
+  window.scrollTo(0, 0);
+}
+function goHome() {
+  document.getElementById('home').style.display = 'block';
+  document.getElementById('detail').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function cp(btn) {
+  const text = btn.closest('.cblock').querySelector('pre').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    setTimeout(() => btn.textContent = 'copy', 2000);
+  });
+}
+</script>
+</body>
+</html>
